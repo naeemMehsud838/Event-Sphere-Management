@@ -1,0 +1,38 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--darkest);
+  color: var(--accent);
+  font-family: "Segoe UI", sans-serif;
+  overflow-y: hidden;
+}
+/*  
+/* dark mode  */
+.dark-mode {
+  --primary: #6c6d91;
+  --secondary: linear-gradient(135deg, #4f1d68, #c06cbf);
+  --accent: #f5d5e0;   
+  --deep: #cc73db99;
+  --darkest: #0e0714; 
+ }  
+    
+
+/*  light mode */
+.light-mode {
+  --primary: #c8c9e894;
+  --secondary: linear-gradient(135deg, #59446c, #f5d5e0);
+  --accent: #2d2430;
+  --deep: #342137;
+  --darkest: linear-gradient(135deg, #59446c, #f5d5e0, #340536);
+}  
+

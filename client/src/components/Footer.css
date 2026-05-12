@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ───────── ROOT ───────── */
+
+.ft-root {
+  position: relative;
+  font-family: "Segoe UI", sans-serif;
+  overflow: hidden;
+  border-top: 1px solid var(--primary);
+  transition: all 0.3s ease;
+}
+
+/* ───────── DARK MODE ───────── */
+
+.dark-mode .ft-root {
+  background: linear-gradient(180deg, #0c0214 0%, #12061d 100%);
+  color: var(--accent);
+}
+
+/* ───────── LIGHT MODE ───────── */
+
+.light-mode .ft-root {
+  background: linear-gradient(135deg, #f7f4fb, #ffffff);
+  color: var(--accent);
+}
+
+/* ───────── GLOW ───────── */
+
+.ft-root::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 300px;
+
+  background: radial-gradient(
+    circle,
+    rgba(204,115,219,0.18) 0%,
+    transparent 70%
+  );
+
+  pointer-events: none;
+}
+
+/* ───────── MAIN GRID ───────── */
+
+.ft-main {
+  max-width: 1200px;
+  margin: auto;
+
+  padding: 60px 25px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+
+  gap: 40px;
+}
+
+/* ───────── BRAND ───────── */
+
+.ft-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 15px;
+}
+
+.ft-logo-orb {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 12px;
+
+  background: var(--secondary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.ft-logo-orb-inner {
+  font-weight: 700;
+  font-size: 11px;
+
+  color: var(--accent);
+}
+
+.ft-brand-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+
+  color: var(--accent);
+}
+
+.ft-brand-name em {
+  color: var(--accent);
+}
+
+/* ───────── DESCRIPTION ───────── */
+
+.ft-brand-desc {
+  font-size: 14px;
+
+  color: var(--accent);
+  opacity: 0.75;
+
+  margin-bottom: 25px;
+  max-width: 300px;
+}
+
+/* ───────── NEWSLETTER ───────── */
+
+.ft-nl-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  margin-bottom: 10px;
+
+  color: var(--accent);
+
+  display: block;
+}
+
+.ft-nl-row {
+  display: flex;
+
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  background: rgba(255,255,255,0.05);
+}
+
+.ft-nl-input {
+  flex: 1;
+
+  padding: 10px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: var(--accent);
+}
+
+.ft-nl-input::placeholder {
+  color: var(--accent);
+  opacity: 0.5;
+}
+
+.ft-nl-btn {
+  background: var(--secondary);
+
+  border: none;
+
+  padding: 10px 16px;
+
+  color: var(--accent);
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.ft-nl-btn:hover {
+  opacity: 0.9;
+}
+
+/* ───────── SOCIALS ───────── */
+
+.ft-socials {
+  display: flex;
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.ft-soc {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--accent);
+  text-decoration: none;
+
+  transition: 0.3s;
+}
+
+.ft-soc:hover {
+  background: var(--secondary);
+  transform: translateY(-3px);
+}
+
+/* ───────── LINKS ───────── */
+
+.ft-col h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+
+  margin-bottom: 15px;
+
+  color: var(--accent);
+}
+
+.ft-col a {
+  display: block;
+
+  margin-bottom: 10px;
+
+  text-decoration: none;
+
+  color: var(--accent);
+  opacity: 0.8;
+
+  font-size: 13.5px;
+
+  transition: 0.3s;
+}
+
+.ft-col a:hover {
+  color: var(--primary);
+  opacity: 1;
+
+  transform: translateX(5px);
+}
+
+/* ───────── BOTTOM ───────── */
+
+.ft-bottom {
+  border-top: 1px solid var(--primary);
+
+  margin-top: 40px;
+  padding: 20px 25px;
+
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  color: var(--accent);
+
+  font-size: 13px;
+}
+
+.ft-bottom-links a {
+  margin-right: 12px;
+
+  color: var(--accent);
+  opacity: 0.8;
+
+  text-decoration: none;
+
+  transition: 0.3s;
+}
+
+.ft-bottom-links a:hover {
+  color: var(--primary);
+  opacity: 1;
+}
+
+.ft-heart {
+  color: var(--primary);
+
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* ───────── RESPONSIVE ───────── */
+
+@media (max-width: 900px) {
+
+  .ft-main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .ft-main {
+    grid-template-columns: 1fr;
+  }
+
+  .ft-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+const express = require("express");
+const router = express.Router();
+
+const {
+  createBooth,
+  getMyBooths,
+  deleteBooth,
+} = require("../controllers/boothController");
+
+router.post("/create", createBooth);
+router.get("/", getMyBooths);
+router.delete("/:id", deleteBooth);
+
+module.exports = router;

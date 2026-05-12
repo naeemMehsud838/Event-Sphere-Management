@@ -1,0 +1,250 @@
+/* =========================
+   BOOTH PAGE
+========================= */
+
+.booth-page {
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.booth-header1 {
+  margin-bottom: 35px;
+}
+
+.booth-header1 h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+.booth-header1 p {
+  color: rgba(245, 213, 224, 0.75);
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.booth-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: var(--deep);
+
+  padding: 12px 16px;
+  border-radius: 14px;
+
+  border: 1px solid rgba(245, 213, 224, 0.1);
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+.search-box input::placeholder {
+  color: rgba(245, 213, 224, 0.55);
+}
+
+/* =========================
+   FILTER BUTTON
+========================= */
+
+.filter-btn {
+  border: none;
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  background: var(--secondary);
+  color: var(--accent);
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.booth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 24px;
+
+  width: 100%;
+  max-width: 100%;
+
+  align-items: stretch;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.booth-card {
+  width: 100%;
+  min-height: 240px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  padding: 22px;
+
+  border-radius: 20px;
+
+  background: var(--secondary);
+
+  border: 1px solid rgba(245, 213, 224, 0.12);
+
+  overflow: hidden;
+
+  transition: 0.3s ease;
+}
+
+.booth-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(192, 108, 191, 0.18);
+}
+
+/* =========================
+   CARD TEXT
+========================= */
+
+.booth-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+
+  color: var(--accent);
+}
+
+.category {
+  width: fit-content;
+
+  background: rgba(245, 213, 224, 0.1);
+
+  color: var(--accent);
+
+  padding: 6px 12px;
+
+  border-radius: 30px;
+
+  font-size: 0.85rem;
+
+  margin-bottom: 18px;
+}
+
+/* =========================
+   PREVENT OVERFLOW
+========================= */
+
+.booth-card * {
+  max-width: 100%;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.booth-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: auto;
+}
+
+.rating,
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: var(--accent);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.visit-btn {
+  margin-top: 20px;
+
+  border: none;
+  border-radius: 14px;
+
+  padding: 12px;
+
+  background: var(--secondary);
+
+  color: var(--accent);
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.visit-btn:hover {
+  filter: brightness(1.08);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .booth-page {
+    padding: 20px;
+  }
+
+  .booth-header1 h1 {
+    font-size: 2rem;
+  }
+
+  .booth-actions {
+    flex-direction: column;
+  }
+
+  .search-box,
+  .filter-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,446 @@
+
+
+/* =========================
+   🌍 WRAPPER
+========================= */
+
+.pricing-wrapper {
+  min-height: 100vh;
+
+  background: var(--darkest);
+
+  color: var(--accent);
+
+  font-family: "Poppins", sans-serif;
+
+  padding: 60px;
+
+  position: relative;
+
+  overflow-x: hidden;
+}
+
+/* =========================
+   🌟 HERO
+========================= */
+
+.pricing-hero {
+  text-align: center;
+
+  margin-bottom: 60px;
+}
+
+.pricing-hero h1 {
+  font-size: 3rem;
+
+  color: var(--accent);
+}
+
+.pricing-hero span {
+  background:
+    linear-gradient(
+      45deg,
+      var(--accent),
+      var(--primary),
+      var(--accent)
+    );
+
+  -webkit-background-clip: text;
+
+  color: transparent;
+}
+
+.pricing-hero p {
+  color: var(--accent);
+
+  opacity: 0.8;
+
+  margin-top: 12px;
+}
+
+/* =========================
+   💳 CARDS
+========================= */
+
+.pricing-cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(260px, 1fr));
+
+  gap: 25px;
+}
+
+.pricing-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,0.06);
+
+  backdrop-filter: blur(18px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.057);
+
+  transition: 0.4s ease;
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.438);
+}
+
+/* ANIMATED GLOW */
+.pricing-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 160px;
+  height: 160px;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--primary),
+      transparent 70%
+    );
+
+  filter: blur(60px);
+
+  top: -40px;
+  right: -40px;
+
+  opacity: 0.25;
+
+  transition: 0.4s ease;
+}
+
+.pricing-card:hover {
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  box-shadow:
+    0 0 30px var(--deep);
+}
+
+.pricing-card:hover::before {
+  opacity: 0.5;
+}
+
+.pricing-card h2 {
+  margin-bottom: 10px;
+
+  color: var(--accent);
+}
+
+.pricing-card h3 {
+  font-size: 2.2rem;
+
+  color: var(--accent);
+}
+
+.pricing-card span {
+  font-size: 14px;
+
+  color: var(--accent);
+
+  opacity: 0.8;
+}
+
+.pricing-card ul {
+  margin: 20px 0;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+.pricing-card li {
+  margin: 10px 0;
+
+  color: var(--accent);
+
+  opacity: 0.9;
+}
+
+/* =========================
+   🔥 POPULAR CARD
+========================= */
+
+.popular {
+  border:
+    1px solid var(--primary);
+
+  transform: scale(1.04);
+
+  box-shadow:
+    0 0 30px var(--deep);
+}
+
+.badge {
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 30px;
+
+  margin-bottom: 14px;
+
+  background:
+    linear-gradient(
+      45deg,
+      var(--primary),
+      var(--deep)
+    );
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+/* =========================
+   🔘 BUTTONS
+========================= */
+
+.pricing-card button,
+.pricing-cta button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  color: white;
+
+  font-weight: 600;
+
+  letter-spacing: 0.4px;
+
+  background:
+    linear-gradient(
+      45deg,
+      var(--primary),
+      var(--deep)
+    );
+
+  transition: 0.4s ease;
+
+  box-shadow:
+    0 10px 25px rgba(108,109,145,0.25);
+}
+
+.pricing-card button:hover,
+.pricing-cta button:hover {
+  transform:
+    translateY(-4px)
+    scale(1.02);
+
+  box-shadow:
+    0 0 25px rgba(108,109,145,0.45);
+}
+
+/* =========================
+   🌟 BENEFITS
+========================= */
+
+.pricing-benefits {
+  margin-top: 90px;
+
+  text-align: center;
+}
+
+.pricing-benefits h2 {
+  color: var(--accent);
+}
+
+.benefit-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
+
+  margin-top: 35px;
+}
+
+.benefit {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.05);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.057);
+
+  
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.438);
+
+  backdrop-filter: blur(18px);
+
+  transition: 0.4s ease;
+}
+
+.benefit:hover {
+  transform:
+    translateY(-10px)
+    scale(1.03);
+
+   box-shadow:
+    0 0 30px var(--deep);
+}
+
+.benefit::before {
+  content: "";
+
+  position: absolute;
+
+  width: 140px;
+  height: 140px;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--primary),
+      transparent 70%
+    );
+
+  filter: blur(60px);
+
+  top: -40px;
+  right: -40px;
+
+  opacity: 0;
+
+  transition: 0.4s;
+}
+
+.benefit:hover::before {
+  opacity: 0.4;
+}
+
+/* =========================
+   🚀 CTA SECTION
+========================= */
+
+.pricing-cta {
+  margin-top: 90px;
+
+  text-align: center;
+
+  padding: 60px 30px;
+
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      45deg,
+      rgba(255,255,255,0.08),
+      rgba(255,255,255,0.03)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.2);
+}
+
+.pricing-cta h2,
+.pricing-cta p {
+  color: var(--accent);
+}
+
+/* =========================
+   🖼 CTA IMAGE
+========================= */
+
+.cta-image {
+  margin: 30px auto;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.cta-image img {
+  width: 100%;
+
+  max-width: 550px;
+
+  border-radius: 22px;
+
+  border:
+    1px solid rgba(255,255,255,0.12);
+
+  transition: 0.4s ease;
+
+  box-shadow:
+    0 20px 60px var(--deep);
+}
+
+.cta-image img:hover {
+  transform:
+    scale(1.05)
+    rotate(1deg);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.4),
+    0 0 30px var(--deep);
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .pricing-wrapper {
+    padding: 25px;
+  }
+
+  .pricing-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .popular {
+    transform: none;
+  }
+
+  .pricing-cta {
+    padding: 35px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .pricing-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .pricing-card {
+    padding: 22px;
+  }
+}

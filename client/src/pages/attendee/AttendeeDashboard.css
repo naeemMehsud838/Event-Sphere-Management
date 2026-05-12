@@ -1,0 +1,144 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADER */
+.dash-header {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--secondary);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.dash-header h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.dash-header p {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+/* CARD */
+.card {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--secondary);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px var(--deep);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(108,109,145,0.2);
+}
+
+.card h2 {
+  font-size: 20px;
+}
+
+.card span {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* BOTTOM */
+.bottom {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 15px;
+}
+
+.panel {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--secondary);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.event {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(108,109,145,0.3);
+  color: var(--accent);
+  border: none;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.badge-link {
+  text-decoration: none;
+}
+
+.badge {
+  cursor: pointer;
+}
+
+.muted {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

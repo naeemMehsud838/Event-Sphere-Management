@@ -1,0 +1,567 @@
+
+/* =========================
+   🌍 BASE LAYOUT
+========================= */
+
+.contact-wrapper {
+  min-height: 100vh;
+
+  background: var(--darkest);
+
+  padding: 60px;
+
+  color: var(--accent);
+
+  position: relative;
+
+  overflow-x: hidden;
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* =========================
+   🌟 BACK GLOW
+========================= */
+
+.contact-glow {
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--primary),
+      transparent 70%
+    );
+
+  filter: blur(140px);
+
+  top: -120px;
+  right: -120px;
+
+  opacity: 0.25;
+
+  z-index: 0;
+}
+
+/* =========================
+   🧠 HEADER
+========================= */
+
+.contact-header {
+  text-align: center;
+
+  position: relative;
+  z-index: 2;
+}
+
+.contact-header h1 {
+  font-size: 3rem;
+  color: var(--accent);
+}
+
+.contact-header span {
+  background:
+    linear-gradient(
+      45deg,
+      var(--primary),
+      var(--deep)
+    );
+
+  -webkit-background-clip: text;
+
+  color: transparent;
+}
+
+/* =========================
+   🖼 HERO IMAGE
+========================= */
+
+.contact-hero-img {
+  display: flex;
+  justify-content: center;
+
+  margin: 30px 0;
+
+  position: relative;
+  z-index: 2;
+}
+
+.contact-hero-img img {
+  width: 80%;
+  max-width: 700px;
+
+  border-radius: 20px;
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 10px 40px var(--deep);
+
+  transition: 0.4s ease;
+}
+
+.contact-hero-img img:hover {
+  transform: scale(1.03);
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,0.3),
+    0 0 25px var(--deep);
+}
+
+/* =========================
+   📦 GRID
+========================= */
+
+.contact-grid {
+  display: grid;
+
+  grid-template-columns: 1.2fr 1fr;
+
+  gap: 30px;
+
+  margin-top: 40px;
+
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   ✨ GLASS SYSTEM
+========================= */
+
+.lux-form,
+.info-box,
+.policy-card {
+  position: relative;
+
+  border-radius: 20px;
+
+  padding: 30px;
+
+  overflow: hidden;
+
+  z-index: 1;
+
+  background:
+    rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(20px);
+
+  border:
+    1px solid rgba(255,255,255,0.1);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   🔥 ANIMATED BORDER
+========================= */
+
+.lux-form::before,
+.info-box::before,
+.policy-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  padding: 1.5px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      120deg,
+      var(--primary),
+      var(--deep),
+      var(--primary)
+    );
+
+  background-size: 300% 300%;
+
+  animation:
+    borderMove 6s linear infinite;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+
+  mask-composite: exclude;
+
+  z-index: -1;
+}
+
+/* FAST BORDER ON HOVER */
+.lux-form:hover::before,
+.info-box:hover::before,
+.policy-card:hover::before {
+  animation-duration: 2.5s;
+}
+
+/* =========================
+   🎬 BORDER ANIMATION
+========================= */
+
+@keyframes borderMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* =========================
+   ✍️ FORM
+========================= */
+
+.lux-form h2 {
+  margin-bottom: 20px;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 14px 16px;
+
+  background:
+    rgba(255,255,255,0.06);
+
+  border:
+    1px solid rgba(255,255,255,0.12);
+
+  border-radius: 12px;
+
+  color: var(--accent);
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 12px var(--deep);
+}
+
+.field label {
+  position: absolute;
+
+  left: 12px;
+  top: 12px;
+
+  color: var(--accent);
+
+  font-size: 14px;
+
+  transition: 0.3s;
+
+  background: transparent;
+
+  padding: 0 5px;
+}
+
+.field input:focus + label,
+.field input:valid + label,
+.field textarea:focus + label,
+.field textarea:valid + label {
+  top: -10px;
+
+  font-size: 12px;
+
+  color: var(--primary);
+}
+
+/* =========================
+   🔘 BUTTON
+========================= */
+
+button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      45deg,
+      var(--primary),
+      var(--deep)
+    );
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform:
+    translateY(-3px)
+    scale(1.02);
+
+  box-shadow:
+    0 0 20px var(--primary),
+    0 0 40px rgba(108,109,145,0.3);
+}
+
+/* =========================
+   📊 MINI BOX
+========================= */
+
+.mini-box {
+  margin-top: 15px;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.1);
+
+  transition: 0.3s;
+}
+
+.mini-box:hover {
+  box-shadow:
+    0 0 15px var(--deep);
+}
+
+/* =========================
+   ❓ FAQ SECTION
+========================= */
+
+.faq-section {
+  margin-top: 70px;
+
+  max-width: 850px;
+
+  margin-inline: auto;
+}
+
+.faq-section h2 {
+  text-align: center;
+
+  font-size: 2.2rem;
+
+  margin-bottom: 25px;
+
+  color: var(--accent);
+}
+
+/* FAQ ITEM */
+.faq-item {
+  margin-bottom: 14px;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(255,255,255,0.1);
+
+  background:
+    rgba(255,255,255,0.04);
+
+  backdrop-filter: blur(18px);
+
+  transition: 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 0 25px rgba(108,109,145,0.25);
+}
+
+/* QUESTION */
+.faq-q {
+  padding: 18px 20px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: var(--accent);
+
+  position: relative;
+}
+
+.faq-q::before {
+  content: "";
+
+  width: 4px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--primary),
+      var(--deep)
+    );
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+}
+
+.faq-q span {
+  color: var(--primary);
+}
+
+/* ANSWER */
+.faq-a {
+  max-height: 0;
+
+  opacity: 0;
+
+  overflow: hidden;
+
+  padding: 0 20px;
+
+  transition:
+    max-height 0.5s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+.faq-item.open .faq-a {
+  max-height: 500px;
+
+  opacity: 1;
+
+  padding: 10px 20px 18px;
+}
+
+/* ACTIVE */
+.faq-item.open {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 20px rgba(108,109,145,0.25);
+}
+
+/* =========================
+   📜 POLICY
+========================= */
+
+.policy-section {
+  margin-top: 70px;
+
+  max-width: 900px;
+
+  margin-inline: auto;
+}
+
+.policy-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 18px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.policy-header:hover {
+  background:
+    rgba(255,255,255,0.04);
+}
+
+.policy-card {
+  overflow: hidden;
+}
+
+.policy-text {
+  max-height: 0;
+
+  opacity: 0;
+
+  overflow: hidden;
+
+  padding: 0 18px;
+
+  transition:
+    max-height 0.5s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+.policy-card.open .policy-text {
+  max-height: 300px;
+
+  opacity: 1;
+
+  padding: 10px 18px 18px;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+
+@media (max-width: 1024px) {
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .contact-wrapper {
+    padding: 25px;
+  }
+
+  .contact-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .contact-hero-img img {
+    width: 100%;
+  }
+}
+
+/* =========================
+   🔒 GLOBAL FIX
+========================= */
+
+html,
+body {
+  overflow-x: hidden;
+}

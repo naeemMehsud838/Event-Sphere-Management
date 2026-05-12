@@ -1,0 +1,489 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap");
+
+/* ================= NAV ROOT ================= */
+
+.nb-root {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: 0.4s;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* top state */
+
+.nb-top {
+  background: transparent;
+}
+
+/* scrolled */
+
+.nb-scrolled {
+  background: rgba(14, 7, 20, 0.85);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* light scrolled */
+
+.light-mode .nb-scrolled {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* ================= WRAPPER ================= */
+
+.nb-wrap {
+  max-width: 1320px;
+  margin: auto;
+  padding: 0 28px;
+}
+
+.nb-bar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ================= LOGO ================= */
+
+.nb-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.nb-orb {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px var(--deep);
+}
+
+.nb-orb-label {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nb-brand {
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+}
+
+.nb-brand em {
+  color: var(--accent);
+}
+
+/* ================= CENTER LINKS ================= */
+
+.nb-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nb-sep {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.5;
+}
+
+/* ================= LINK ================= */
+
+.nb-link {
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nb-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.light-mode .nb-link:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nb-link.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.light-mode .nb-link.active {
+  color: var(--deep);
+}
+
+/* underline */
+
+.nb-link::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--secondary);
+  transform: scaleX(0);
+  transition: 0.3s;
+  opacity: 0.9;
+}
+
+.nb-link:hover::after,
+.nb-link.active::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.light-mode .nb-link::after {
+  background: var(--deep);
+}
+
+/* ================= RIGHT ================= */
+
+.nb-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ================= THEME BUTTON ================= */
+
+.nb-theme {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.nb-theme:hover {
+  transform: rotate(180deg);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.light-mode .nb-theme:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ================= SIGN IN ================= */
+
+.nb-signin {
+  text-decoration: none;
+  color: var(--accent);
+  border: 1px solid var(--primary);
+  padding: 9px 18px;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.nb-signin:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.light-mode .nb-signin:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ================= CTA ================= */
+
+.nb-cta {
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: var(--accent);
+  border: 1px solid var(--primary);
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 20px var(--deep);
+}
+
+.nb-cta:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= HAMBURGER ================= */
+
+.nb-ham {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.nb-ham-line {
+  width: 18px;
+  height: 2px;
+  background: var(--accent);
+  transition: 0.3s;
+}
+
+.nb-ham.open .nb-ham-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nb-ham.open .nb-ham-line:nth-child(2) {
+  opacity: 0;
+}
+
+.nb-ham.open .nb-ham-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ================= MOBILE DRAWER ================= */
+
+.nb-drawer {
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.4s;
+}
+
+.nb-drawer.open {
+  max-height: 500px;
+}
+
+.nb-drawer-inner {
+  padding: 15px 0 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nb-mob-link {
+  text-decoration: none;
+  color: var(--accent);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.light-mode .nb-mob-link {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nb-mob-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.light-mode .nb-mob-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.nb-mob-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.nb-mob-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nb-mob-actions .nb-signin,
+.nb-mob-actions .nb-cta {
+  flex: 1;
+  text-align: center;
+}
+
+/* ================= RESPONSIVE ================= */
+
+.nb-desktop {
+  display: flex;
+}
+
+.nb-mobile-only {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .nb-center {
+    display: none !important;
+  }
+
+  .nb-desktop.nb-right {
+    display: none !important;
+  }
+
+  .nb-mobile-only {
+    display: flex !important;
+  }
+
+  .nb-wrap {
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .nb-brand {
+    font-size: 1.1rem;
+  }
+
+  .nb-orb {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ================= PROFILE DROPDOWN ================= */
+
+.nb-profile-container {
+  position: relative;
+}
+
+.nb-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.nb-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.light-mode .nb-profile-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nb-profile-avatar {
+  font-size: 20px;
+}
+
+.nb-profile-name {
+  font-weight: 500;
+}
+
+.nb-profile-arrow {
+  transition: transform 0.3s;
+  font-size: 12px;
+}
+
+.nb-profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  background: rgba(14, 7, 20, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s;
+  z-index: 1000;
+  margin-top: 8px;
+}
+
+.light-mode .nb-profile-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.nb-profile-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nb-profile-item {
+  padding: 12px 16px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.light-mode .nb-profile-item {
+  border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+.nb-profile-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.light-mode .nb-profile-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.nb-profile-item:last-child {
+  border-bottom: none;
+}
+
+.nb-profile-btn:hover .nb-profile-arrow {
+  transform: rotate(180deg);
+}
+
+/* Mobile Profile in Drawer */
+.nb-mob-profile {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light-mode .nb-mob-profile {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+.nb-mob-profile .nb-profile-item {
+  border: none;
+  border-radius: 8px;
+  justify-content: flex-start;
+  font-size: 15px;
+}

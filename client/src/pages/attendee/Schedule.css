@@ -1,0 +1,80 @@
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--accent);
+}
+
+/* HEADER */
+.schedule-header {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--secondary);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.schedule-header h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.schedule-header p {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* TIMELINE */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* CARD */
+.schedule-card {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--secondary);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.3s;
+}
+
+.schedule-card:hover {
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* TIME */
+.time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+/* TITLE */
+.schedule-card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* META */
+.meta {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
