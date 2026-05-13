@@ -1,6 +1,7 @@
 const Expo = require("../models/Expo");
 const User = require("../models/User");
 const Booth = require("../models/Booth");
+const Registration = require("../models/Registration");
 
 const getDashboardStats = async (req, res) => {
 
@@ -10,10 +11,9 @@ const getDashboardStats = async (req, res) => {
     const totalEvents = await Expo.countDocuments();
 
     const totalAttendees =
-      await User.countDocuments({
-        role: "attendee",
-      });
-
+  await Registration.countDocuments({
+    status: "approved",
+  });
     const totalExhibitors =
       await User.countDocuments({
         role: "exhibitor",

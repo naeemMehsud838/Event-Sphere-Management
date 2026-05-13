@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import CreateEventModal from "../../components/events/CreateEventModal";
 import { Link } from "react-router-dom";
 import {
@@ -47,26 +49,7 @@ export default function AdminDashboard() {
     },
   ];
 
-  const events = [
-    {
-      title: "Tech Expo 2026",
-      date: "12 May",
-      location: "Convention Center",
-      status: "Live",
-    },
-    {
-      title: "Startup Meetup",
-      date: "14 May",
-      location: "Co-working Space",
-      status: "Upcoming",
-    },
-    {
-      title: "Gaming Convention",
-      date: "16 May",
-      location: "Arena Hall",
-      status: "Draft",
-    },
-  ];
+  const events = dashboardData?.recentEvents || [];
 
   const schedule = [
     {
@@ -506,14 +489,15 @@ useEffect(() => {
                     <h4>{event.title}</h4>
                     <div className="event-meta">
                       <Clock size={16} />
-                      <span className="event-date">{event.date}</span>
-                      <MapPin size={16} />
+<span className="event-date">
+  {new Date(event.date).toLocaleDateString()}
+</span>                      <MapPin size={16} />
                       <span className="event-date">{event.location}</span>
                     </div>
                   </div>
-                  <div className={`status ${event.status.toLowerCase()}`}>
-                    {event.status}
-                  </div>
+                 <div className="status live">
+  Live
+</div>
                 </div>
               ))}
             </div>
