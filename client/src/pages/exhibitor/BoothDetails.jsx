@@ -1,20 +1,50 @@
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./BoothDetails.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function BoothDetails() {
-    const navigate = useNavigate();
+
   const { id } = useParams();
 
-  const booths = [
-    { id: 1, name: "Tech Innovators", category: "Technology", rating: 4.8 },
-    { id: 2, name: "Creative Studio", category: "Design", rating: 4.6 },
-    { id: 3, name: "AI Lab", category: "AI", rating: 4.9 },
-  ];
+  const navigate = useNavigate();
 
-  const booth = booths.find((b) => b.id === Number(id));
+  const [booth, setBooth] = useState(null);
 
+  // FETCH SINGLE BOOTH
+  const fetchBooth = async () => {
+
+    try {
+
+      const res = await axios.get(
+        `http://localhost:1000/api/booths/${id}`
+      );
+
+      setBooth(res.data.booth);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  useEffect(() => {
+
+    fetchBooth();
+
+  }, []);
+
+  // LOADING
   if (!booth) {
-    return <div style={{ color: "white" }}>Not found</div>;
+
+    return (
+      <div style={{ color: "white" }}>
+        Loading...
+      </div>
+    );
+
   }
 
   return (
@@ -22,29 +52,38 @@ export default function BoothDetails() {
 
       <div className="booth-card">
 
-        <h1 className="booth-title">🏢 {booth.name}</h1>
+        <h1 className="booth-title">
+          🏢 {booth.title}
+        </h1>
 
         <span className="booth-category">
           {booth.category}
         </span>
 
         <p className="booth-info">
-          This booth belongs to the {booth.category} category and showcases innovative solutions.
+          {booth.description}
         </p>
 
         <div className="rating-box">
           <span>⭐ Rating</span>
-          <span>{booth.rating}</span>
+          <span>4.8</span>
         </div>
 
-        <p className="location">📍 Location: Hall A</p>
+        <p className="location">
+          📍 Location: {booth.location}
+        </p>
 
-       <button
-  className="back-btn"
-  onClick={() => navigate("/exhibitor/my-booth")}
->
-  ← Back to Booths
-</button>
+        <p className="location">
+          📧 Contact: {booth.email}
+        </p>
+
+        <button
+          className="back-btn"
+          onClick={() => navigate("/exhibitor/my-booth")}
+        >
+          ← Back to Booths
+        </button>
+
       </div>
 
     </div>

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import "./MyBooth.css";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +20,35 @@ const booths = [
 
 export default function Booth() {
   const navigate = useNavigate();
+  const [booths, setBooths] = useState([]);
+  const [search, setSearch] = useState("");
 
+  const fetchBooths = async () => {
+
+  try {
+
+    const res = await axios.get(
+      "http://localhost:1000/api/booths"
+    );
+
+    console.log(res.data);
+
+    setBooths(res.data.booths);
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+};
+useEffect(() => {
+  fetchBooths();
+}, []);
+
+const filteredBooths = booths.filter((booth) =>
+  booth.title.toLowerCase().includes(search.toLowerCase())
+);
   return (
     <div className="booth-page">
 
@@ -34,8 +64,11 @@ export default function Booth() {
         <div className="booth-actions">
           <div className="search-box">
             <Search />
-            <input placeholder="Search booths..." />
-          </div>
+<input
+  placeholder="Search booths..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>          </div>
 
           <button className="filter-btn">
             <Filter /> Filter
@@ -45,9 +78,9 @@ export default function Booth() {
 
       {/* GRID */}
       <div className="booth-grid">
-        {booths.map((booth, i) => (
+        {filteredBooths.map((booth, i) => (
           <motion.div
-            key={booth.id}
+            key={booth._id}
             className="booth-card"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,7 +97,7 @@ export default function Booth() {
 
             {/* CONTENT */}
             <div className="card-content">
-              <h2>{booth.name}</h2>
+              <h2>{booth.title}</h2>
 
               <p className="description">
                 Explore cutting-edge ideas and connect with industry experts.
@@ -84,7 +117,7 @@ export default function Booth() {
               {/* BUTTON */}
               <motion.button
                 className="visit-btn"
-                onClick={() => navigate(`/exhibitor/booth/${booth.id}`)}
+                onClick={() => navigate(`/exhibitor/booth/${booth._id}`)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateBooth() {
-  const handleCreateBooth = async () => {
+  const handleCreateBooth = async (e) => {
+    e.preventDefault();
 
   try {
 

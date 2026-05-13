@@ -1,51 +1,13 @@
 const mongoose = require("mongoose");
 
-const boothSchema = new mongoose.Schema(
-  {
-    title: String,
-    description: String,
+const boothSchema = new mongoose.Schema({
 
-    expoId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Expo",
-    },
+  title: String,
+  category: String,
+  description: String,
+  location: String,
+  email: String,
 
-    exhibitorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  },
-  { timestamps: true }
-);
+}, { timestamps: true });
 
 module.exports = mongoose.model("Booth", boothSchema);
-
-
-// const mongoose = require("mongoose");
-
-// const boothSchema = new mongoose.Schema({
-//   expo: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Expo",
-//   },
-
-//   exhibitor: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "User",
-//   },
-
-//   boothNumber: String,
-
-//   size: String,
-
-//   status: {
-//     type: String,
-//     enum: ["available", "reserved", "occupied"],
-//     default: "available",
-//   },
-// },
-// {
-//   timestamps: true
-// });
-
-// module.exports = mongoose.model("Booth", boothSchema);

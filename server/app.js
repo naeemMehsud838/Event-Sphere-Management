@@ -5,7 +5,7 @@ const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const authRoutes = require("./App/routes/authRoutes");
 const expoRoutes = require("./App/routes/expoRoutes");
-const expoRoutes = require("./App/routes/expoRoutes");
+const boothRoutes = require("./App/routes/boothRoutes")
 
 const app = express();
 
