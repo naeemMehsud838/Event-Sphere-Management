@@ -12,9 +12,9 @@ import {
   MapPin,
 } from "lucide-react";
 
-const [dashboardData, setDashboardData] = useState(null);
 
 export default function AdminDashboard() {
+  const [dashboardData, setDashboardData] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const stats = [
     {
