@@ -1,5 +1,3 @@
-
-
 * {
   margin: 0;
   padding: 0;
@@ -17,15 +15,14 @@ body {
   overflow-y: hidden;
 }
 /*  
-/* dark mode  */
+  /* dark mode  */
 .dark-mode {
   --primary: #6c6d91;
   --secondary: linear-gradient(135deg, #4f1d68, #c06cbf);
-  --accent: #f5d5e0;   
+  --accent: #f5d5e0;
   --deep: #cc73db99;
-  --darkest: #0e0714; 
- }  
-    
+  --darkest: #0e0714;
+}
 
 /*  light mode */
 .light-mode {
@@ -34,5 +31,4 @@ body {
   --accent: #2d2430;
   --deep: #342137;
   --darkest: linear-gradient(135deg, #59446c, #f5d5e0, #340536);
-}  
-
+}

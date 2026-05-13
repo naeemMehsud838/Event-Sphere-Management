@@ -1,0 +1,352 @@
+/* ===================================== */
+/* ADMIN PROFILE */
+/* ===================================== */
+
+.adminProfileWrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+/* ===================================== */
+/* CARD */
+/* ===================================== */
+
+.adminProfileCard {
+  width: 100%;
+  max-width: 600px; /* Increased width for 2-column layout */
+
+  background: var(--secondary);
+
+  backdrop-filter: blur(18px);
+
+  border: 1px solid var(--deep);
+
+  border-radius: 28px;
+
+  padding: 40px 28px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  animation: profileShow 0.5s ease;
+}
+
+/* ===================================== */
+/* ANIMATION */
+/* ===================================== */
+
+@keyframes profileShow {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===================================== */
+/* TOP SECTION */
+/* ===================================== */
+
+.adminProfileTop {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* AVATAR */
+
+.adminProfileAvatar {
+  width: 125px;
+  height: 125px;
+
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+
+  background: var(--secondary);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--accent);
+
+  font-size: 42px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  border: 6px solid var(--deep);
+
+  box-shadow:
+    0 10px 25px rgba(192, 108, 191, 0.4),
+    inset 0 0 12px rgba(255, 255, 255, 0.15);
+
+  transition: 0.3s ease;
+}
+
+.adminProfileAvatar:hover {
+  transform: scale(1.05) rotate(3deg);
+}
+
+/* NAME */
+
+.adminProfileName {
+  margin: 0;
+
+  font-size: 31px;
+  font-weight: 700;
+
+  color: var(--accent);
+}
+
+/* ROLE */
+
+.adminProfileRole {
+  margin-top: 8px;
+
+  color: var(--primary);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+}
+
+/* ===================================== */
+/* INFO AREA - 2 COLUMN LAYOUT */
+/* ===================================== */
+
+.adminProfileInfoArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 equal columns */
+  gap: 16px;
+
+  margin-top: 25px;
+}
+
+/* INFO ROW (New structure for 2 items per row) */
+
+.adminInfoRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* INFO BOX - Now smaller for 2-column layout */
+
+.adminInfoBox {
+  background: var(--secondary);
+
+  border: 1px solid var(--deep);
+
+  border-radius: 14px;
+
+  padding: 14px 16px;
+
+  transition: all 0.3s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+/* HOVER EFFECT */
+
+.adminInfoBox::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 213, 224, 0.2),
+    transparent
+  );
+
+  transition: 0.5s;
+}
+
+.adminInfoBox:hover::before {
+  left: 100%;
+}
+
+.adminInfoBox:hover {
+  transform: translateY(-4px);
+
+  background: var(--deep);
+
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(192, 108, 191, 0.3);
+}
+
+/* LABEL */
+
+.adminInfoLabel {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: var(--primary);
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+}
+
+/* VALUE */
+
+.adminInfoValue {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: var(--accent);
+
+  word-break: break-word;
+}
+
+/* ===================================== */
+/* BUTTON */
+/* ===================================== */
+
+.adminEditButton {
+  width: 100%;
+  grid-column: 1 / -1; /* Full width button spanning both columns */
+
+  margin-top: 28px;
+
+  padding: 15px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 16px;
+
+  background: var(--secondary);
+
+  color: var(--accent);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 10px 25px rgba(192, 108, 191, 0.4);
+}
+
+.adminEditButton:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 16px 30px rgba(192, 108, 191, 0.5);
+}
+
+.adminEditButton:active {
+  transform: scale(0.98);
+}
+
+/* ===================================== */
+/* MOBILE RESPONSIVE */
+/* ===================================== */
+
+@media (max-width: 768px) {
+  .adminProfileWrapper {
+    padding: 22px 14px;
+  }
+
+  .adminProfileCard {
+    max-width: 480px;
+    padding: 30px 20px;
+    border-radius: 24px;
+  }
+
+  .adminProfileAvatar {
+    width: 105px;
+    height: 105px;
+    font-size: 34px;
+  }
+
+  .adminProfileName {
+    font-size: 25px;
+  }
+
+  .adminProfileRole {
+    font-size: 14px;
+  }
+
+  .adminProfileInfoArea {
+    grid-template-columns: 1fr; /* Single column on tablet */
+    gap: 14px;
+  }
+
+  .adminInfoBox {
+    padding: 14px;
+  }
+
+  .adminInfoValue {
+    font-size: 14px;
+  }
+
+  .adminEditButton {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminProfileCard {
+    padding: 26px 16px;
+  }
+
+  .adminProfileAvatar {
+    width: 90px;
+    height: 90px;
+    font-size: 28px;
+  }
+
+  .adminProfileName {
+    font-size: 22px;
+  }
+
+  .adminProfileRole {
+    font-size: 13px;
+  }
+
+  .adminInfoLabel {
+    font-size: 11px;
+  }
+
+  .adminInfoValue {
+    font-size: 13px;
+  }
+
+  .adminInfoBox {
+    padding: 12px 14px;
+  }
+
+  .adminEditButton {
+    font-size: 14px;
+  }
+}

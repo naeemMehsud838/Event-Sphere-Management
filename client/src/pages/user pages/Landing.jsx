@@ -1,14 +1,21 @@
 import { Link } from "react-router-dom";
-import "./Landing.css"
+import "./Landing.css";
+import Landingimg1 from "../../assets/landingimg1.jpg";
+import featuredEvents1 from "../../assets/featuredEvents1.jpeg";
+import featuredEvents2 from "../../assets/featuredEvents2.jpeg";
+import featuredEvents3 from "../../assets/featuredEvents3.jpeg";
+import yourRole1 from "../../assets/yourRole1.jpg";
+import yourRole2 from "../../assets/yourRole2.jpg";
+import yourRole3 from "../../assets/yourRole3.jpg";
 
 /* ─── ALL STATIC DATA ─────────────────────────────────────── */
 const DATA = {
   hero: {
-    title: "Where great expos begin.",
+    title: "Where great Events begin.",
     subtitle:
       "Manage exhibitors, attendees, and sessions in one powerful platform.",
-    featuredExpo: {
-      name: "Global Tech Expo",
+    featuredEvent: {
+      name: "Global Tech Event",
       attendees: "2,400",
       exhibitors: "84",
     },
@@ -16,7 +23,7 @@ const DATA = {
   features: [
     {
       icon: "🎪",
-      title: "Expo Management",
+      title: "Events Management",
       desc: "Create, configure, and launch world-class expos in minutes. Full control over halls, booths, sessions, and scheduling from one unified dashboard.",
     },
     {
@@ -46,19 +53,19 @@ const DATA = {
     },
   ],
   stats: [
-    { value: "12K+", label: "Expos Hosted" },
+    { value: "12K+", label: "Events Hosted" },
     { value: "4.8M", label: "Total Attendees" },
     { value: "99.97%", label: "Uptime SLA" },
     { value: "4.9★", label: "User Rating" },
   ],
-  liveExpos: [
+  liveEvents: [
     "AI Summit 2026 — Dubai 🔴 Live",
-    "Startup Expo Karachi — Day 2 🔴 Live",
+    "Startup Event Karachi — Day 2 🔴 Live",
     "Web Dev Conference — Upcoming 🟡",
     "Global Tech Meetup — London 🔴 Live",
     "HealthTech Forum — Singapore 🔴 Live",
     "EduTech Asia — Upcoming 🟡",
-    "Blockchain Expo — Berlin 🔴 Live",
+    "Blockchain Event — Berlin 🔴 Live",
     "Pakistan Auto Show 2026 — Upcoming 🟡",
   ],
   testimonials: [
@@ -81,19 +88,19 @@ const DATA = {
       role: "Attendee",
       rating: 5,
       avatar: "👩",
-      text: "Best expo app I've ever used. Easy booking, real-time session updates, and the QR check-in was completely frictionless on the day. Loved it!",
+      text: "Best event app I've ever used. Easy booking, real-time session updates, and the QR check-in was completely frictionless on the day. Loved it!",
     },
   ],
   organizers: [
-    { name: "TechFest Global", expos: "47", image: "🎯" },
-    { name: "InnoVibe Events", expos: "23", image: "🚀" },
-    { name: "FutureX Conferences", expos: "89", image: "⭐" },
-    { name: "Global Summit Co.", expos: "156", image: "🌍" },
+    { name: "TechFest Global", events: "47", image: "🎯" },
+    { name: "InnoVibe Events", events: "23", image: "🚀" },
+    { name: "FutureX Conferences", events: "89", image: "⭐" },
+    { name: "Global Summit Co.", events: "156", image: "🌍" },
   ],
   howToStart: [
     {
       step: "1",
-      title: "Create Expo",
+      title: "Create Event",
       desc: "Setup your event structure, branding, and halls in under an hour.",
     },
     {
@@ -115,27 +122,25 @@ const DATA = {
   everythingIncluded: {
     title: "Everything Included, Zero Compromise",
     subtitle:
-      "Unlimited expos, exhibitors, attendees, and 24/7 support — all in one plan.",
+      "Unlimited events, exhibitors, attendees, and 24/7 support — all in one plan.",
     features: [
-      "✅ Unlimited Expos",
+      "✅ Unlimited Events",
       "✅ Unlimited Attendees",
       "✅ Custom Branding",
       "✅ Live Support 24/7",
       "✅ Advanced Analytics",
       "✅ Mobile App Access",
     ],
-    image:
-      "https://i.pinimg.com/736x/38/90/2c/38902cf7988ff38b2d4975c124ee7f21.jpg",
+    image: Landingimg1,
   },
   featuredEvents: [
     {
-      name: "AI & Robotics Expo 2026",
+      name: "AI & Robotics Event 2026",
       date: "Jan 15–17",
       location: "Dubai, UAE",
       attendees: "5,200+",
       emoji: "🤖",
-      image:
-        "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+      image: featuredEvents1,
     },
     {
       name: "Future Mobility Summit",
@@ -143,8 +148,7 @@ const DATA = {
       location: "London, UK",
       attendees: "3,800+",
       emoji: "🚗",
-      image:
-        "https://images.pexels.com/photos/3861959/pexels-photo-3861959.jpeg",
+      image: featuredEvents2,
     },
     {
       name: "Digital Health Conference",
@@ -152,28 +156,24 @@ const DATA = {
       location: "Singapore",
       attendees: "4,100+",
       emoji: "🏥",
-      image:
-        "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg",
+      image: featuredEvents3,
     },
   ],
   yourRole: [
     {
       title: "Event Organizers",
-      desc: "Create, manage, and scale expos effortlessly with our end-to-end platform.",
-      image:
-        "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1000&q=80",
+      desc: "Create, manage, and scale events effortlessly with our end-to-end platform.",
+      image: yourRole1,
     },
     {
       title: "Exhibitors",
       desc: "Find the perfect booth, manage your profile, and connect with qualified attendees.",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1000&q=80",
+      image: yourRole2,
     },
     {
       title: "Attendees",
       desc: "Discover world-class events, book sessions, and get a seamless day-of experience.",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=80",
+      image: yourRole3,
     },
   ],
 };
@@ -195,7 +195,7 @@ export default function Landing() {
           <div>
             <div className="lp-hero-badge">
               <span className="lp-pulse" />
-              <span>The Future of Expo Management</span>
+              <span>The Future of Events Management</span>
             </div>
             <h1 className="lp-hero-title">{DATA.hero.title}</h1>
             <p className="lp-hero-sub">{DATA.hero.subtitle}</p>
@@ -203,21 +203,21 @@ export default function Landing() {
               <Link to="/register" className="lp-btn lp-btn-primary">
                 Start Free →
               </Link>
-              <Link to="/expos" className="lp-btn lp-btn-outline">
-                Browse Expos
+              <Link to="/events" className="lp-btn lp-btn-outline">
+                Browse Events
               </Link>
             </div>
           </div>
           <div className="lp-hero-card">
-            <h3>{DATA.hero.featuredExpo.name}</h3>
+            <h3>{DATA.hero.featuredEvent.name}</h3>
             <div className="lp-expo-meta">
               <div className="lp-expo-meta-item">
                 <span style={{ fontSize: 22 }}>👥</span>
-                <span>{DATA.hero.featuredExpo.attendees} attendees</span>
+                <span>{DATA.hero.featuredEvent.attendees} attendees</span>
               </div>
               <div className="lp-expo-meta-item">
                 <span style={{ fontSize: 22 }}>🏢</span>
-                <span>{DATA.hero.featuredExpo.exhibitors} exhibitors</span>
+                <span>{DATA.hero.featuredEvent.exhibitors} exhibitors</span>
               </div>
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function Landing() {
         {/* ══ LIVE TICKER ═══════════════════════════════════ */}
         <div className="lp-ticker">
           <div className="lp-ticker-track">
-            {[...DATA.liveExpos, ...DATA.liveExpos].map((item, i) => (
+            {[...DATA.liveEvents, ...DATA.liveEvents].map((item, i) => (
               <div key={i} className="lp-ticker-item">
                 <span className="lp-live-badge">LIVE</span>
                 <span>{item}</span>
@@ -287,7 +287,7 @@ export default function Landing() {
         {/* ══ FEATURED EVENTS ═══════════════════════════════ */}
         <div className="lp-sec-head">
           <h2 className="lp-sec-title">Featured Events</h2>
-          <p className="lp-sec-sub">Join thousands at these upcoming expos</p>
+          <p className="lp-sec-sub">Join thousands at these upcoming events</p>
         </div>
 
         <div className="lp-events-grid">
@@ -318,8 +318,8 @@ export default function Landing() {
             marginTop: "60px",
           }}
         >
-          <Link to="/expos" className="see-all-btn">
-            <span>See All Expos</span>
+          <Link to="/events" className="see-all-btn">
+            <span>See All Events</span>
             <span className="arrow">→</span>
           </Link>
         </div>
@@ -350,7 +350,7 @@ export default function Landing() {
             <div key={i} className="lp-org-card">
               <span className="lp-org-icon">{o.image}</span>
               <div className="lp-org-name">{o.name}</div>
-              <div className="lp-org-expos">{o.expos} expos</div>
+              <div className="lp-org-expos">{o.events} events</div>
             </div>
           ))}
         </div>
@@ -359,7 +359,7 @@ export default function Landing() {
         <div className="lp-sec-head">
           <h2 className="lp-sec-title">Your Role, Your Experience</h2>
           <p className="lp-sec-sub">
-            Perfect solution for everyone in the expo ecosystem
+            Perfect solution for everyone in the event ecosystem
           </p>
         </div>
         <div className="lp-role-grid">
@@ -387,7 +387,7 @@ export default function Landing() {
         <div className="lp-sec-head">
           <h2 className="lp-sec-title">How to Get Started</h2>
           <p className="lp-sec-sub">
-            Launch your first expo in under 5 minutes
+            Launch your first event in under 5 minutes
           </p>
         </div>
         <div className="lp-steps-grid">
@@ -402,7 +402,7 @@ export default function Landing() {
 
         {/* ══ CTA BANNER ════════════════════════════════════ */}
         <div className="lp-cta">
-          <h2 className="lp-cta-title">Ready to create your next big expo?</h2>
+          <h2 className="lp-cta-title">Ready to create your next big event?</h2>
           <p className="lp-cta-sub">Join 340K+ users who love our platform</p>
           <Link to="/register" className="lp-cta-btn">
             Start Free Trial

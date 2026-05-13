@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const cors = require("cors");
+const adminRoutes = require("./App/routes/adminRoutes");
 const authRoutes = require("./App/routes/authRoutes");
 const expoRoutes = require("./App/routes/expoRoutes");
 const boothRoutes = require("./App/routes/boothRoutes")
@@ -42,6 +43,7 @@ app.use(
   })
 );
 // Routes
+app.use("/api/admin", adminRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/expos/", expoRoutes);
 app.use("/api/booths", boothRoutes);

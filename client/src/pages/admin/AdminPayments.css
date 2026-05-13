@@ -1,0 +1,298 @@
+/* =========================
+   MAIN CONTAINER
+========================= */
+.admin-payment-page {
+  padding: 24px;
+  min-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* =========================
+   BANNER
+========================= */
+.payment-banner {
+  background: var(--secondary);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.banner-emoji {
+  font-size: 2.5rem;
+}
+
+.banner-text h1 {
+  font-size: 2rem;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.banner-text p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.banner-right .revenue-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+.banner-right .revenue-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* =========================
+   STATS GRID
+========================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(79, 29, 104, 0.35);
+}
+
+.stat-emoji {
+  font-size: 2rem;
+}
+
+.stat-content h3 {
+  margin: 0 0 6px 0;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.stat-content p {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.change {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.change.up {
+  color: white;
+  background: rgba(192, 108, 191, 0.25);
+}
+
+.change.down {
+  color: white;
+  background: rgba(255, 138, 216, 0.25);
+}
+
+/* =========================
+   ANALYTICS SECTION
+========================= */
+.analytics-section {
+  background: var(--secondary);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.section-icon {
+  font-size: 1.5rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header span {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* =========================
+   GRID
+========================= */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* =========================
+   CHART CARD
+========================= */
+.chart-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  transition: 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(79, 29, 104, 0.3);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), #c06cbf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chart-header span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================
+   BAR CHART (FIXED BIGGER)
+========================= */
+.bar-chart {
+  height: 280px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 20px 0;
+}
+
+.bar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar {
+  width: 36px;
+  height: var(--bar-height, 85px);
+  border-radius: 10px 10px 5px 5px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ff8ad8, #c06cbf);
+  box-shadow: 0 6px 16px rgba(255, 138, 216, 0.45);
+  transition: 0.3s;
+  position: relative;
+}
+
+.bar:hover {
+  transform: scale(1.06);
+}
+
+.bar span {
+  position: absolute;
+  top: -32px;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.bar small {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+.progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8ad8, #c06cbf);
+  border-radius: 10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+  .admin-payment-page {
+    padding: 16px;
+  }
+
+  .payment-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .stats-grid,
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bar-chart {
+    height: 200px;
+  }
+
+  .bar {
+    width: 26px;
+  }
+}

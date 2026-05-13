@@ -1,0 +1,389 @@
+/* =====================
+   MAIN PAGE
+===================== */
+.admin-attendee-page {
+  padding: 24px;
+  min-height: 100vh;
+  overflow-y: auto;
+  color: var(--accent);
+  font-family: "Segoe UI", sans-serif;
+  /* background: var(--darkest); */
+}
+
+/* =====================
+   BANNER - RESPONSIVE
+===================== */
+.attendee-banner {
+  background: var(--secondary);
+  padding: 22px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.banner-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+
+.attendee-banner h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  flex: 1;
+}
+
+.attendee-banner p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =====================
+   SECTION CARD
+===================== */
+.section-card {
+  background: var(--secondary);
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.section-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+}
+
+/* =====================
+   REQUEST CARDS
+===================== */
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.request-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.request-card small {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =====================
+   REQUEST BUTTONS - TOUCH FRIENDLY
+===================== */
+.request-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* GREEN APPROVE */
+.approve-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #52dc85;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.approve-btn:hover,
+.approve-btn:active {
+  background: #16a34a;
+  transform: scale(1.02);
+}
+
+/* RED REJECT */
+.reject-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #ea5757;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.reject-btn:hover,
+.reject-btn:active {
+  background: #dc2626;
+  transform: scale(1.02);
+}
+
+/* =====================
+   TABLE STYLE
+===================== */
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1fr;
+  padding: 16px;
+  border-radius: 14px;
+  align-items: center;
+  gap: 8px;
+}
+
+/* HEADER */
+.table-header {
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--accent);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ROW */
+.table-row {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* =====================
+   STATUS COLORS
+===================== */
+.approved {
+  color: #85ebab;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: rgba(133, 235, 171, 0.2);
+}
+
+.pending {
+  color: #e0c96c;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: rgba(224, 201, 108, 0.2);
+}
+
+/* =====================
+   DESKTOP RESPONSIVE (1024px+)
+===================== */
+@media (min-width: 1025px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 1.8fr 1.5fr 1.8fr 1.2fr 1fr;
+    padding: 18px 20px;
+  }
+}
+
+/* =====================
+   TABLET RESPONSIVE (769px - 1024px)
+===================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 1.4fr 1.2fr 1.5fr 1fr 0.9fr;
+    font-size: 0.9rem;
+  }
+
+  .approve-btn,
+  .reject-btn {
+    padding: 7px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* =====================
+   MOBILE RESPONSIVE (0px - 768px)
+===================== */
+@media (max-width: 768px) {
+  .admin-attendee-page {
+    padding: 16px 12px;
+  }
+
+  /* BANNER MOBILE */
+  .attendee-banner {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 20px 16px;
+  }
+
+  .banner-left {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .banner-icon {
+    font-size: 2rem;
+  }
+
+  .attendee-banner h1 {
+    font-size: 1.6rem;
+  }
+
+  .attendee-banner p {
+    font-size: 0.9rem;
+  }
+
+  /* SECTION CARDS MOBILE */
+  .section-card {
+    padding: 20px 16px;
+    margin-bottom: 24px;
+  }
+
+  .section-card h2 {
+    font-size: 1.3rem;
+  }
+
+  /* REQUEST CARDS MOBILE */
+  .request-list {
+    gap: 14px;
+  }
+
+  .request-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 20px 16px;
+  }
+
+  .request-info {
+    width: 100%;
+  }
+
+  .request-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .approve-btn,
+  .reject-btn {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 1rem;
+    min-width: auto;
+  }
+
+  /* TABLE MOBILE - CARD STYLE */
+  .table {
+    gap: 16px;
+  }
+
+  .table-header {
+    display: none; /* Hide header on mobile */
+  }
+
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    margin-bottom: 12px;
+  }
+
+  .table-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  /* STATUS MOBILE */
+  .approved,
+  .pending {
+    align-self: flex-end;
+    margin-top: 8px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (0px - 480px)
+===================== */
+@media (max-width: 480px) {
+  .admin-attendee-page {
+    padding: 12px 8px;
+  }
+
+  .attendee-banner {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .banner-icon {
+    font-size: 1.8rem;
+  }
+
+  .attendee-banner h1 {
+    font-size: 1.4rem;
+  }
+
+  .section-card {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .request-card {
+    padding: 18px 14px;
+  }
+
+  .table-row {
+    padding: 20px 16px;
+  }
+
+  .approve-btn,
+  .reject-btn {
+    padding: 11px 18px;
+    font-size: 0.95rem;
+  }
+}

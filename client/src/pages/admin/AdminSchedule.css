@@ -1,0 +1,466 @@
+.schedule-page {
+  padding: 25px;
+  color: var(--accent);
+  animation: pageFade 0.6s ease-in-out;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HEADER */
+.schedule-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  background: var(--secondary);
+  padding: 25px 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-emoji {
+  font-size: 32px;
+}
+
+.schedule-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.add-btn {
+  background: var(--secondary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* GRID */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 20px;
+}
+
+/* BOX HEADERS */
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.box-emoji {
+  font-size: 24px;
+}
+
+/* CALENDAR BOX */
+.calendar-box {
+  background: var(--secondary);
+  padding: 20px;
+  border-radius: 14px;
+  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-box:hover {
+  transform: translateY(-3px);
+}
+
+/* YOUR EXISTING CSS + THESE FIXES */
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--accent) !important;
+  font-family: inherit;
+}
+
+/* ✅ CALENDAR BUTTONS - ALL VISIBLE & COLORED */
+.react-calendar__tile {
+  color: var(--accent) !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  position: relative;
+}
+
+.react-calendar__tile--now {
+  background: rgba(var(--primary-rgb), 0.2) !important;
+  color: var(--primary) !important;
+}
+
+.react-calendar__tile:hover,
+.react-calendar__tile--active {
+  background: var(--primary) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* ✅ WEEKDAY HEADERS */
+.react-calendar__weekday__heading {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* ✅ MONTH NAVIGATION */
+.react-calendar__navigation button {
+  color: var(--accent) !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 18px !important;
+}
+
+.react-calendar__navigation button:hover {
+  background: var(--primary) !important;
+  color: white !important;
+  border-radius: 50% !important;
+}
+
+/* ✅ EVENT DOT */
+.event-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary) !important;
+  border-radius: 50%;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* ✅ NO EVENTS IMPROVEMENT */
+.no-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--accent);
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  min-height: 200px;
+}
+
+.no-events-emoji {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: bounce 2s infinite;
+}
+
+.no-events p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* BOUNCE ANIMATION */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* SELECTED DATE */
+.selected-date {
+  margin-top: 15px;
+  padding: 12px 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--primary-rgb), 0.1),
+    rgba(var(--primary-rgb), 0.05)
+  );
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* EVENT COUNT */
+.box-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.events-count {
+  background: var(--primary);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* SCHEDULE BOX */
+.schedule-box {
+  background: var(--secondary);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: 0.3s ease;
+}
+
+.schedule-box:hover {
+  transform: translateY(-3px);
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 300px;
+}
+
+/* ✅ HIGHLIGHTED EVENTS */
+.schedule-card.highlighted {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 2px solid var(--primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: highlightPulse 0.6s ease;
+}
+
+@keyframes highlightPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.event-emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.event-details {
+  flex: 1;
+}
+
+.event-details h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.event-details p {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.event-time {
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* =====================
+   PERFECT MOBILE RESPONSIVE 
+===================== */
+@media (max-width: 1024px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .schedule-header {
+    padding: 22px 18px;
+  }
+
+  .schedule-header h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-page {
+    padding: 18px 14px;
+  }
+
+  /* HEADER MOBILE */
+  .schedule-header {
+    padding: 24px 18px;
+    margin-bottom: 24px;
+    border-radius: 16px;
+  }
+
+  .header-emoji {
+    font-size: 28px;
+  }
+
+  .schedule-header h2 {
+    font-size: 22px;
+  }
+
+  .add-btn {
+    padding: 14px 28px;
+    font-size: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* BOXES MOBILE */
+  .calendar-box,
+  .schedule-box {
+    padding: 20px 18px;
+    border-radius: 16px;
+  }
+
+  /* CALENDAR MOBILE */
+  .react-calendar {
+    font-size: 14px !important;
+  }
+
+  .react-calendar__tile {
+    padding: 8px 4px !important;
+    font-size: 13px !important;
+  }
+
+  .react-calendar__navigation button {
+    font-size: 16px !important;
+    width: 36px;
+    height: 36px;
+  }
+
+  .event-dot {
+    width: 6px;
+    height: 6px;
+    bottom: 2px;
+    right: 4px;
+  }
+
+  /* SCHEDULE CARDS MOBILE */
+  .card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .event-emoji {
+    font-size: 24px;
+    align-self: flex-start;
+  }
+
+  .event-time {
+    align-self: flex-end;
+    margin-top: 8px;
+    min-width: 70px;
+  }
+
+  /* NO EVENTS MOBILE */
+  .no-events {
+    padding: 32px 16px;
+    min-height: 180px;
+  }
+
+  .no-events-emoji {
+    font-size: 48px;
+  }
+
+  .no-events p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-page {
+    padding: 14px 10px;
+  }
+
+  .schedule-header {
+    padding: 20px 16px;
+  }
+
+  .schedule-header h2 {
+    font-size: 20px;
+  }
+
+  .calendar-box,
+  .schedule-box {
+    padding: 18px 14px;
+  }
+
+  .react-calendar {
+    font-size: 13px !important;
+  }
+
+  .react-calendar__tile {
+    padding: 6px 2px !important;
+    font-size: 12px !important;
+  }
+
+  .box-header h3 {
+    font-size: 15px;
+  }
+}

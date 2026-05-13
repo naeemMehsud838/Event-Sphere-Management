@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const NAV_LINKS = [
-  { to: "/expos", label: "Events", icon: "◈" },
+  { to: "/events", label: "Events", icon: "◈" },
   { to: "/pricing", label: "Pricing", icon: "✧" },
   { to: "/about", label: "About", icon: "◎" },
   { to: "/contact", label: "Contact", icon: "⬟" },
@@ -11,7 +11,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const location = useLocation();
-  const navigate = useNavigate(); // Added navigate hook
+  const navigate = useNavigate();
   const drawerRef = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,24 +20,39 @@ export default function Navbar() {
 
   // DARK MODE DEFAULT
   const [theme, setTheme] = useState(
-    () => localStorage.getItem("es-theme") || "dark"
+    () => localStorage.getItem("es-theme") || "dark",
   );
 
-  /* scroll */
+  /* ✅ STICKY NAVBAR - PERFECT SCROLL HANDLER */
   useEffect(() => {
-    const fn = () => {
-      setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 20);
+
+      // Body padding dynamically adjust karo
+      if (scrollY > 20) {
+        document.body.classList.add("navbar-scrolled");
+        document.documentElement.style.scrollPaddingTop = "64px";
+      } else {
+        document.body.classList.remove("navbar-scrolled");
+        document.documentElement.style.scrollPaddingTop = "72px";
+      }
     };
 
-    window.addEventListener("scroll", fn);
+    // Initial call
+    handleScroll();
 
-    return () => window.removeEventListener("scroll", fn);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.body.classList.remove("navbar-scrolled");
+      document.documentElement.style.scrollPaddingTop = "";
+    };
   }, []);
 
   /* APPLY THEME TO BODY */
   useEffect(() => {
     const body = document.body;
-
     if (theme === "dark") {
       body.classList.add("dark-mode");
       body.classList.remove("light-mode");
@@ -45,7 +60,6 @@ export default function Navbar() {
       body.classList.add("light-mode");
       body.classList.remove("dark-mode");
     }
-
     localStorage.setItem("es-theme", theme);
   }, [theme]);
 
@@ -57,7 +71,7 @@ export default function Navbar() {
 
   /* close on outside click */
   useEffect(() => {
-    const h = (e) => {
+    const handleClickOutside = (e) => {
       if (drawerRef.current && !drawerRef.current.contains(e.target)) {
         setMenuOpen(false);
         setProfileOpen(false);
@@ -65,24 +79,23 @@ export default function Navbar() {
     };
 
     if (menuOpen || profileOpen) {
-      document.addEventListener("mousedown", h);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
-    return () => document.removeEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen, profileOpen]);
 
   const toggleTheme = () => {
-    setTheme((p) => (p === "dark" ? "light" : "dark"));
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   const toggleProfile = () => {
     setProfileOpen((open) => !open);
   };
 
-  // Function to handle profile navigation and close dropdown
   const handleProfileClick = (role) => {
     navigate(`/profilepage?role=${role}`);
-    setProfileOpen(false); // Close dropdown after navigation
+    setProfileOpen(false);
   };
 
   const dark = theme === "dark";
@@ -93,16 +106,13 @@ export default function Navbar() {
       ref={drawerRef}
     >
       <div className="nb-wrap">
-
         {/* MAIN BAR */}
         <div className="nb-bar">
-
           {/* LOGO */}
           <Link to="/" className="nb-logo">
             <div className="nb-orb">
               <span className="nb-orb-label">ES</span>
             </div>
-
             <span className="nb-brand">
               Event<em>Sphere</em>
             </span>
@@ -110,23 +120,23 @@ export default function Navbar() {
 
           {/* DESKTOP CENTER */}
           <div className="nb-center nb-desktop">
-            {NAV_LINKS.map((l, i) => (
+            {NAV_LINKS.map((link, index) => (
               <div
-                key={l.to}
+                key={link.to}
                 style={{
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                {i > 0 && <div className="nb-sep" />}
+                {index > 0 && <div className="nb-sep" />}
                 <Link
-                  to={l.to}
+                  to={link.to}
                   className={`nb-link ${
-                    location.pathname === l.to ? "active" : ""
+                    location.pathname === link.to ? "active" : ""
                   }`}
                 >
-                  <span>{l.icon}</span>
-                  {l.label}
+                  <span>{link.icon}</span>
+                  {link.label}
                 </Link>
               </div>
             ))}
@@ -134,7 +144,11 @@ export default function Navbar() {
 
           {/* DESKTOP RIGHT */}
           <div className="nb-right nb-desktop">
-            <button className="nb-theme" onClick={toggleTheme}>
+            <button
+              className="nb-theme"
+              onClick={toggleTheme}
+              title="Toggle Theme"
+            >
               {dark ? "☀️" : "🌙"}
             </button>
 
@@ -146,50 +160,57 @@ export default function Navbar() {
               Get Started →
             </Link>
 
-            {/* NEW PROFILE DROPDOWN BUTTON */}
+            {/* PROFILE DROPDOWN */}
             <div className="nb-profile-container">
-              <button className="nb-profile-btn" onClick={toggleProfile}>
-                {/* <span className="nb-profile-avatar">👤</span> */}
+              <button
+                className="nb-profile-btn"
+                onClick={toggleProfile}
+                aria-label="Profile Menu"
+              >
                 <span className="nb-profile-name">Profile</span>
                 <span className="nb-profile-arrow">▼</span>
               </button>
 
-              {/* PROFILE DROPDOWN */}
-              <div className={`nb-profile-dropdown ${profileOpen ? "open" : ""}`}>
-                <div 
-                  className="nb-profile-item" 
+              <div
+                className={`nb-profile-dropdown ${profileOpen ? "open" : ""}`}
+              >
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("attendee")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("attendee");
+                      e.preventDefault();
                     }
                   }}
                 >
                   👤 Attendee Profile
                 </div>
-                <div 
-                  className="nb-profile-item" 
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("exhibitor")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("exhibitor");
+                      e.preventDefault();
                     }
                   }}
                 >
                   🏪 Exhibitor Profile
                 </div>
-                <div 
-                  className="nb-profile-item" 
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("admin")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("admin");
+                      e.preventDefault();
                     }
                   }}
                 >
@@ -201,13 +222,18 @@ export default function Navbar() {
 
           {/* MOBILE RIGHT */}
           <div className="nb-right nb-mobile-only" style={{ gap: 8 }}>
-            <button className="nb-theme" onClick={toggleTheme}>
+            <button
+              className="nb-theme"
+              onClick={toggleTheme}
+              title="Toggle Theme"
+            >
               {dark ? "☀️" : "🌙"}
             </button>
 
             <button
               className={`nb-ham ${menuOpen ? "open" : ""}`}
-              onClick={() => setMenuOpen((o) => !o)}
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label="Toggle Menu"
             >
               <div className="nb-ham-line"></div>
               <div className="nb-ham-line"></div>
@@ -219,65 +245,75 @@ export default function Navbar() {
         {/* MOBILE DRAWER */}
         <div className={`nb-drawer ${menuOpen ? "open" : ""}`}>
           <div className="nb-drawer-inner">
-
-            {NAV_LINKS.map((l) => (
+            {NAV_LINKS.map((link) => (
               <Link
-                key={l.to}
-                to={l.to}
+                key={link.to}
+                to={link.to}
                 className={`nb-mob-link ${
-                  location.pathname === l.to ? "active" : ""
+                  location.pathname === link.to ? "active" : ""
                 }`}
+                onClick={() => setMenuOpen(false)}
               >
-                <span className="nb-mob-icon">{l.icon}</span>
-                {l.label}
+                <span className="nb-mob-icon">{link.icon}</span>
+                {link.label}
               </Link>
             ))}
 
             <div className="nb-mob-actions">
-              <Link to="/login" className="nb-signin">
+              <Link
+                to="/login"
+                className="nb-signin"
+                onClick={() => setMenuOpen(false)}
+              >
                 Sign in
               </Link>
-
-              <Link to="/register" className="nb-cta">
+              <Link
+                to="/register"
+                className="nb-cta"
+                onClick={() => setMenuOpen(false)}
+              >
                 Get Started →
               </Link>
 
-              {/* MOBILE PROFILE BUTTON */}
+              {/* MOBILE PROFILE */}
               <div className="nb-mob-profile">
-                <div 
-                  className="nb-profile-item" 
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("attendee")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("attendee");
+                      e.preventDefault();
                     }
                   }}
                 >
                   👤 Attendee
                 </div>
-                <div 
-                  className="nb-profile-item" 
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("exhibitor")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("exhibitor");
+                      e.preventDefault();
                     }
                   }}
                 >
                   🏪 Exhibitor
                 </div>
-                <div 
-                  className="nb-profile-item" 
+                <div
+                  className="nb-profile-item"
                   onClick={() => handleProfileClick("admin")}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       handleProfileClick("admin");
+                      e.preventDefault();
                     }
                   }}
                 >

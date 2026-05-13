@@ -7,16 +7,16 @@ export default function Footer() {
   const links = {
     "Quick Links": [
       { label: "Home", to: "/" },
-      { label: "Expos", to: "/expos" },
+      { label: "Events", to: "/events" },
       { label: "Pricing", to: "/pricing" },
       { label: "About Us", to: "/about" },
       { label: "Contact", to: "/contact" },
     ],
 
     Platform: [
-      { label: "Browse Events", to: "/expos" },
-      { label: "Create Expo", to: "/register" },
-      { label: "Analytics", to: "/expos" },
+      { label: "Browse Events", to: "/events" },
+      { label: "Create Expo", to: "/events" },
+      { label: "Analytics", to: "/events" },
     ],
 
     "Legal & Support": [
@@ -37,10 +37,8 @@ export default function Footer() {
 
   return (
     <footer className="ft-root">
-
       {/* MAIN GRID */}
       <div className="ft-main">
-
         {/* BRAND */}
         <div>
           <div className="ft-brand-logo">
@@ -54,14 +52,12 @@ export default function Footer() {
           </div>
 
           <p className="ft-brand-desc">
-            A futuristic event management platform for expos,
-            exhibitors, and attendees. Build, manage, and grow
-            world-class events — effortlessly.
+            A futuristic event management platform for events, exhibitors, and
+            attendees. Build, manage, and grow world-class events —
+            effortlessly.
           </p>
 
-          <span className="ft-nl-label">
-            Stay in the loop
-          </span>
+          <span className="ft-nl-label">Stay in the loop</span>
 
           <div className="ft-nl-row">
             <input
@@ -70,9 +66,7 @@ export default function Footer() {
               placeholder="your@email.com"
             />
 
-            <button className="ft-nl-btn">
-              Subscribe →
-            </button>
+            <button className="ft-nl-btn">Subscribe →</button>
           </div>
 
           <div className="ft-socials">
@@ -94,7 +88,6 @@ export default function Footer() {
         {/* LINKS */}
         {Object.entries(links).map(([heading, items]) => (
           <div key={heading} className="ft-col">
-
             <h4>{heading}</h4>
 
             {items.map((item) => (
@@ -102,14 +95,12 @@ export default function Footer() {
                 {item.label}
               </Link>
             ))}
-
           </div>
         ))}
       </div>
 
       {/* BOTTOM */}
       <div className="ft-bottom">
-
         <span className="ft-copy">
           © {year} EventSphere Inc. All rights reserved.
         </span>
@@ -122,10 +113,9 @@ export default function Footer() {
         </div>
 
         <div className="ft-made">
-          Built with <span className="ft-heart">♥</span>
-          {" "}for the future of events
+          Built with <span className="ft-heart">♥</span> for the future of
+          events
         </div>
-
       </div>
     </footer>
   );

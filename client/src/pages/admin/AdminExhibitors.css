@@ -1,0 +1,225 @@
+/* ================= ROOT BASE ================= */
+body {
+  background: var(--darkest);
+  color: var(--accent);
+  font-family: "Segoe UI", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+/* ================= PAGE WRAPPER ================= */
+.exh-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= HEADER ================= */
+.exh-header {
+  background: var(--secondary);
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.exh-title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.exh-subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ================= STATS (DESKTOP 4 COL) ================= */
+.exh-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.exh-stat-box {
+  background: var(--secondary);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.exh-stat-box span {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.exh-stat-box h2 {
+  margin: 6px 0 0;
+  font-size: 18px;
+}
+
+.exh-stat-box:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ================= TABLE WRAPPER ================= */
+.exh-table-wrapper {
+  background: var(--secondary);
+  border-radius: 16px;
+  padding: 10px;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ================= TABLE ================= */
+.exh-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.exh-table thead {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.exh-table th {
+  padding: 14px;
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.exh-table td {
+  padding: 14px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.exh-table tbody tr {
+  transition: 0.25s ease;
+}
+
+.exh-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: scale(1.01);
+}
+
+/* ================= BUTTON ================= */
+.exh-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--deep);
+  color: white;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+.exh-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* ================= MODAL ================= */
+.exh-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.exh-modal-box {
+  background: var(--secondary);
+  padding: 20px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 420px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+/* 📱 TABLET */
+@media (max-width: 900px) {
+  .exh-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .exh-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* TABLE → CARD RESET */
+  .exh-table,
+  .exh-table tbody,
+  .exh-table tr,
+  .exh-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .exh-table thead {
+    display: none;
+  }
+
+  /* CARD */
+  .exh-table tr {
+    background: var(--secondary);
+    margin-bottom: 12px;
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    /* IMPORTANT */
+    position: relative;
+  }
+
+  /* TEXT BLOCK */
+  .exh-table td {
+    padding: 6px 0;
+    border: none;
+    font-size: 13px;
+  }
+
+  .exh-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+
+  /* ✅ FIXED BUTTON */
+  .exh-btn {
+    width: 10%;
+    display: block;
+
+    margin-top: 12px;
+    padding: 12px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+
+    /* IMPORTANT FIX */
+    position: relative;
+    z-index: 2;
+  }
+}

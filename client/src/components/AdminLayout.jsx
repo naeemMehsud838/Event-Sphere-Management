@@ -4,16 +4,19 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import {
   LayoutDashboard,
-  Calendar,
+  CalendarPlus,
+  Users,
   Ticket,
+  CalendarDays,
   MessageCircle,
+  CreditCard,
   User,
   LogOut,
   Menu,
   X,
 } from "lucide-react";
 
-export default function AttendeeLayout() {
+export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -35,7 +38,7 @@ export default function AttendeeLayout() {
     <>
       <style>{`
         /* ================= WRAPPER ================= */
-        .attendee-wrapper{
+        .admin-wrapper{
           display:flex;
           height:100vh;
           background:var(--darkest);
@@ -52,6 +55,19 @@ export default function AttendeeLayout() {
           display:flex;
           flex-direction:column;
           padding:20px;
+          overflow-y:auto; /* FIXED */
+        }
+
+        /* SCROLLBAR */
+        .sidebar::-webkit-scrollbar,
+        .mobile::-webkit-scrollbar{
+          width:6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb,
+        .mobile::-webkit-scrollbar-thumb{
+          background:rgba(255,255,255,0.2);
+          border-radius:10px;
         }
 
         .top{
@@ -61,6 +77,7 @@ export default function AttendeeLayout() {
           font-size:18px;
           font-weight:700;
           margin-bottom:25px;
+          flex-shrink:0;
         }
 
         .logo-box{
@@ -72,6 +89,7 @@ export default function AttendeeLayout() {
           align-items:center;
           justify-content:center;
           font-weight:800;
+          color:var(--accent);
         }
 
         .nav{
@@ -79,6 +97,7 @@ export default function AttendeeLayout() {
           flex-direction:column;
           gap:10px;
           flex:1;
+          min-height:max-content;
         }
 
         .link{
@@ -88,8 +107,13 @@ export default function AttendeeLayout() {
           padding:12px 14px;
           border-radius:12px;
           text-decoration:none;
-          color:var(--accent);
+          color:var(--secondary);
           transition:0.3s;
+          border:none;
+          background:none;
+          cursor:pointer;
+          font-size:15px;
+          width:100%;
         }
 
         .link:hover{
@@ -99,6 +123,7 @@ export default function AttendeeLayout() {
 
         .link.active{
           background:var(--secondary);
+          color:white;
         }
 
         /* ================= MAIN ================= */
@@ -118,6 +143,7 @@ export default function AttendeeLayout() {
           padding:0 20px;
           background:var(--secondary);
           border-bottom:1px solid rgba(255,255,255,0.08);
+          flex-shrink:0;
         }
 
         .menu-btn{
@@ -138,25 +164,31 @@ export default function AttendeeLayout() {
         }
 
         /* ================= OVERLAY ================= */
-        .overlay{
-          position:fixed;
-          inset:0;
-          background:rgba(0,0,0,0.6);
-          z-index:900;
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.6);
+          z-index: 900;
+          backdrop-filter: blur(3px);
         }
 
         /* ================= MOBILE SIDEBAR ================= */
-        .mobile{
-          position:fixed;
-          top:0;
-          left:0;
-          width:260px;
-          height:100vh;
-          background:var(--darkest);
-          padding:20px;
-          z-index:1000;
-          display:flex;
-          flex-direction:column;
+        .mobile {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 260px;
+          height: 100vh;
+          background: var(--darkest);
+          padding: 20px;
+          z-index: 1000;
+
+          display: flex;
+          flex-direction: column;
+
+          border-right: 1px solid rgba(255,255,255,0.08);
+          box-shadow: 5px 0 20px rgba(0,0,0,0.4);
+          overflow-y: auto;
         }
 
         .mobile-top{
@@ -164,6 +196,7 @@ export default function AttendeeLayout() {
           justify-content:space-between;
           align-items:center;
           margin-bottom:25px;
+          flex-shrink:0;
         }
 
         .close-btn{
@@ -178,9 +211,10 @@ export default function AttendeeLayout() {
           flex-direction:column;
           gap:10px;
         }
+
       `}</style>
 
-      <div className="attendee-wrapper">
+      <div className="admin-wrapper">
         {/* ================= SIDEBAR ================= */}
         <motion.aside
           className="sidebar"
@@ -193,27 +227,40 @@ export default function AttendeeLayout() {
           </div>
 
           <div className="nav">
-            <NavLink to="/attendee" end className={linkClass}>
+            <NavLink to="/admin" end className={linkClass}>
               <LayoutDashboard size={18} /> Dashboard
             </NavLink>
 
-            <NavLink to="/attendee/session" className={linkClass}>
-              <Calendar size={18} /> Session
+            {/* NEW EVENTS LINK */}
+            <NavLink to="/admin/adminEvents" className={linkClass}>
+              <CalendarPlus size={18} /> Events
             </NavLink>
 
-            <NavLink to="/attendee/schedule" className={linkClass}>
-              <Calendar size={18} /> Schedule
+            <NavLink to="/admin/adminExhibitors" className={linkClass}>
+              <Users size={18} /> Exhibitors
             </NavLink>
 
-            <NavLink to="/attendee/booking" className={linkClass}>
-              <Ticket size={18} /> Bookings
+            <NavLink to="/admin/adminAttendees" className={linkClass}>
+              <Users size={18} /> Attendees
             </NavLink>
 
-            <NavLink to="/attendee/attendeeMessage" className={linkClass}>
+            <NavLink to="/admin/adminMessages" className={linkClass}>
               <MessageCircle size={18} /> Messages
             </NavLink>
 
-            <NavLink to="/attendee/AttendeeProfile" className={linkClass}>
+            <NavLink to="/admin/adminPayments" className={linkClass}>
+              <CreditCard size={18} /> Payments
+            </NavLink>
+
+            <NavLink to="/admin/adminSchedule" className={linkClass}>
+              <CalendarDays size={18} /> Schedule
+            </NavLink>
+
+            <NavLink to="/admin/adminTickets" className={linkClass}>
+              <Ticket size={18} /> Tickets
+            </NavLink>
+
+            <NavLink to="/admin/adminProfile" className={linkClass}>
               <User size={18} /> Profile
             </NavLink>
 
@@ -227,8 +274,10 @@ export default function AttendeeLayout() {
         <div className="main-area">
           <div className="topbar">
             <Menu className="menu-btn" onClick={() => setMobileOpen(true)} />
-            <h3>Attendee Panel</h3>
-            <div>Maryam</div>
+
+            <h3>Admin Panel</h3>
+
+            <div>Umaima</div>
           </div>
 
           <div className="content">
@@ -236,7 +285,7 @@ export default function AttendeeLayout() {
           </div>
         </div>
 
-        {/* ================= MOBILE ================= */}
+        {/* ================= MOBILE SIDEBAR ================= */}
         <AnimatePresence>
           {mobileOpen && (
             <>
@@ -260,31 +309,46 @@ export default function AttendeeLayout() {
                     EventSphere
                   </div>
 
-                  <X onClick={closeMobile} />
+                  <button className="close-btn" onClick={closeMobile}>
+                    <X />
+                  </button>
                 </div>
 
                 <div className="mobile-links" onClick={closeMobile}>
-                  <NavLink to="/attendee" end className={linkClass}>
+                  <NavLink to="/admin" end className={linkClass}>
                     <LayoutDashboard size={18} /> Dashboard
                   </NavLink>
 
-                  <NavLink to="/attendee/session" className={linkClass}>
-                    <Calendar size={18} /> Session
+                  {/* NEW EVENTS LINK */}
+                  <NavLink to="/admin/adminEvents" className={linkClass}>
+                    <CalendarPlus size={18} /> Events
                   </NavLink>
 
-                  <NavLink to="/attendee/schedule" className={linkClass}>
-                    <Calendar size={18} /> Schedule
+                  <NavLink to="/admin/adminExhibitors" className={linkClass}>
+                    <Users size={18} /> Exhibitors
                   </NavLink>
 
-                  <NavLink to="/attendee/booking" className={linkClass}>
-                    <Ticket size={18} /> Bookings
+                  <NavLink to="/admin/adminAttendees" className={linkClass}>
+                    <Users size={18} /> Attendees
                   </NavLink>
 
-                  <NavLink to="/attendee/messages" className={linkClass}>
+                  <NavLink to="/admin/adminMessages" className={linkClass}>
                     <MessageCircle size={18} /> Messages
                   </NavLink>
 
-                  <NavLink to="/attendee/profile" className={linkClass}>
+                  <NavLink to="/admin/adminPayments" className={linkClass}>
+                    <CreditCard size={18} /> Payments
+                  </NavLink>
+
+                  <NavLink to="/admin/adminSchedule" className={linkClass}>
+                    <CalendarDays size={18} /> Schedule
+                  </NavLink>
+
+                  <NavLink to="/admin/adminTickets" className={linkClass}>
+                    <Ticket size={18} /> Tickets
+                  </NavLink>
+
+                  <NavLink to="/admin/adminProfile" className={linkClass}>
                     <User size={18} /> Profile
                   </NavLink>
 

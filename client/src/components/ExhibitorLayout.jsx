@@ -17,15 +17,13 @@ import {
 export default function ExhibitorLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const linkClass = ({ isActive }) =>
-    isActive ? "link active" : "link";
+  const linkClass = ({ isActive }) => (isActive ? "link active" : "link");
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
   };
-
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
@@ -201,7 +199,6 @@ export default function ExhibitorLayout() {
       `}</style>
 
       <div className="exhibitor-wrapper">
-
         {/* ================= SIDEBAR ================= */}
         <motion.aside
           className="sidebar"
@@ -241,13 +238,11 @@ export default function ExhibitorLayout() {
             <button className="link" onClick={handleLogout}>
               <LogOut size={18} /> Logout
             </button>
-
           </div>
         </motion.aside>
 
         {/* ================= MAIN ================= */}
         <div className="main-area">
-
           <div className="topbar">
             <Menu className="menu-btn" onClick={() => setMobileOpen(true)} />
             <h3>Exhibitor Panel</h3>
@@ -293,7 +288,10 @@ export default function ExhibitorLayout() {
                     <LayoutDashboard size={18} /> Dashboard
                   </NavLink>
 
-                  <NavLink to="/exhibitor/ExhibitorEvents" className={linkClass}>
+                  <NavLink
+                    to="/exhibitor/ExhibitorEvents"
+                    className={linkClass}
+                  >
                     <CalendarPlus size={18} /> Events
                   </NavLink>
 
@@ -314,15 +312,13 @@ export default function ExhibitorLayout() {
                   </NavLink>
 
                   <button className="link" onClick={handleLogout}>
-              <LogOut size={18} /> Logout
-            </button>
-
+                    <LogOut size={18} /> Logout
+                  </button>
                 </div>
               </motion.aside>
             </>
           )}
         </AnimatePresence>
-
       </div>
     </>
   );
