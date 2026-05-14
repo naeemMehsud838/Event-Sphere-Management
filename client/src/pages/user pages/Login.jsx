@@ -7,6 +7,7 @@ import {toast} from "react-toastify"
 export default function Login() {
   const navigate = useNavigate();
   
+  
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) =>
@@ -26,54 +27,50 @@ export default function Login() {
 
 const handleLogin = async (e) => {
   e.preventDefault();
-  console.log("LOGIN HIT")
-
   try {
-
     const res = await axios.post(
-
-      "http://localhost:1000/api/auth/login",
-
+      "http://localhost:1000/api/users/login", // ✅ FIXED
       {
         email: form.email,
         password: form.password,
-      },
-
-      {
-        withCredentials: true,
       }
     );
 
-    toast.success(res.data.message);
-    console.log(res.data)
+    const data = res.data;
 
-    localStorage.setItem(
-  "user",
-  JSON.stringify(res.data.user)
-);
+    console.log("LOGIN RESPONSE:", data);
 
-    if (res.data.user.role === "admin") {
-      navigate("/admin");
-    } 
-    else if (res.data.user.role === "exhibitor") {
-      navigate("/exhibitor");
-    }
-    else if (res.data.user.role === "attendee"){
-      navigate("/attendee");
-    }
-    else {
-      navigate("/");
+    if (data.status === 1) {
+
+      // ✅ TOKEN SAVE (IMPORTANT)
+      localStorage.setItem("token", data.token);
+
+      // ✅ USER SAVE
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      toast.success(data.message);
+
+      // ✅ ROLE BASED REDIRECT
+      const role = data.user.role;
+
+      if (role === "admin") {
+        navigate("/admin");
+      } 
+      else if (role === "exhibitor") {
+        navigate("/exhibitor");
+      } 
+      else {
+        navigate("/attendee");
+      }
+
+    } else {
+      toast.error(data.message);
     }
 
   } catch (error) {
     console.log(error);
-    
-    toast.error(
-      error.response?.data?.message || "Login Failed"
-    );
-
+    toast.error(error.response?.data?.message || "Login Failed");
   }
-
 };
 
   return (

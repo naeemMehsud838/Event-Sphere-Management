@@ -4,9 +4,10 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const adminRoutes = require("./App/routes/adminRoutes");
-const authRoutes = require("./App/routes/authRoutes");
+// const authRoutes = require("./App/routes/authRoutes");
 const expoRoutes = require("./App/routes/expoRoutes");
 const boothRoutes = require("./App/routes/boothRoutes")
+const userRoutes = require("./App/routes/userRoutes")
 
 const app = express();
 
@@ -44,9 +45,10 @@ app.use(
 );
 // Routes
 app.use("/api/admin", adminRoutes);
-app.use("/api/auth/", authRoutes);
+// app.use("/api/auth/", authRoutes);
 app.use("/api/expos/", expoRoutes);
 app.use("/api/booths", boothRoutes);
+app.use("/api/users",userRoutes)
 
 // Database Connection
 mongoose.connect(process.env.DBURL)

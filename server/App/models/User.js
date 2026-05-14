@@ -1,27 +1,27 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: String,
+// const userSchema = new mongoose.Schema({
+//   name: String,
 
-  email: {
-    type: String,
-    unique: true,
-  },
+//   email: {
+//     type: String,
+//     unique: true,
+//   },
 
-  password: String,
+//   password: String,
 
-  role: {
-    type: String,
-    enum: ["admin", "exhibitor", "attendee"],
-    default: "attendee",
-  },
+//   role: {
+//     type: String,
+//     enum: ["admin", "exhibitor", "attendee"],
+//     default: "attendee",
+//   },
 
-  companyName: String,
+//   companyName: String,
 
-  profileImage: String,
-},
-{
-  timestamps: true
-});
+//   profileImage: String,
+// },
+// {
+//   timestamps: true
+// });
 
-module.exports = mongoose.model("User", userSchema);
+// module.exports = mongoose.model("User", userSchema);

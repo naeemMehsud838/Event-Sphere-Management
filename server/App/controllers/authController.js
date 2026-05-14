@@ -1,202 +1,202 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
+// const User = require("../models/User");
+// const bcrypt = require("bcryptjs");
 
-//REGISTER
-const registerUser = async (req, res) => {
-  console.log("REGISTER HIT");
+// //REGISTER
+// const registerUser = async (req, res) => {
+//   console.log("REGISTER HIT");
 
-  try {
+//   try {
 
-    const {
-      name,
-      email,
-      password,
-      role,
-      company,
-      phone,
-    } = req.body;
+//     const {
+//       name,
+//       email,
+//       password,
+//       role,
+//       company,
+//       phone,
+//     } = req.body;
 
-    const existingUser = await User.findOne({
-      email,
-    });
+//     const existingUser = await User.findOne({
+//       email,
+//     });
 
-    if (existingUser) {
+//     if (existingUser) {
 
-      return res.status(400).json({
-        success: false,
-        message: "Email already exists",
-      });
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email already exists",
+//       });
 
-    }
+//     }
 
-    const hashedPassword =
-      await bcrypt.hash(password, 10);
+//     const hashedPassword =
+//       await bcrypt.hash(password, 10);
 
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role,
-      company,
-      phone,
-    });
+//     const user = await User.create({
+//       name,
+//       email,
+//       password: hashedPassword,
+//       role,
+//       company,
+//       phone,
+//     });
 
-    // STORE SESSION
-    req.session.user = {
-      id: user._id,
-      role: user.role,
-    };
+//     // STORE SESSION
+//     req.session.user = {
+//       id: user._id,
+//       role: user.role,
+//     };
 
-    // REMOVE PASSWORD
-    const userWithoutPassword = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      company: user.company,
-      phone: user.phone,
-    };
+//     // REMOVE PASSWORD
+//     const userWithoutPassword = {
+//       _id: user._id,
+//       name: user.name,
+//       email: user.email,
+//       role: user.role,
+//       company: user.company,
+//       phone: user.phone,
+//     };
 
-    res.status(201).json({
-      success: true,
-      message: "Registration successful",
-      user: userWithoutPassword,
-    });
+//     res.status(201).json({
+//       success: true,
+//       message: "Registration successful",
+//       user: userWithoutPassword,
+//     });
 
-  } catch (error) {
+//   } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
 
-  }
-};
+//   }
+// };
 
-//LOGIN
+// //LOGIN
 
-const loginUser = async (req, res) => {
+// const loginUser = async (req, res) => {
 
-  try {
+//   try {
 
-    const { email, password } = req.body;
+//     const { email, password } = req.body;
 
-    // FIND USER
-    const user =
-      await User.findOne({ email });
+//     // FIND USER
+//     const user =
+//       await User.findOne({ email });
 
-    if (!user) {
+//     if (!user) {
 
-      return res.status(400).json({
-        success: false,
-        message: "User not found",
-      });
+//       return res.status(400).json({
+//         success: false,
+//         message: "User not found",
+//       });
 
-    }
+//     }
 
-    // CHECK PASSWORD
-    const isMatch =
-      await bcrypt.compare(
-        password,
-        user.password
-      );
+//     // CHECK PASSWORD
+//     const isMatch =
+//       await bcrypt.compare(
+//         password,
+//         user.password
+//       );
 
-    if (!isMatch) {
+//     if (!isMatch) {
 
-      return res.status(400).json({
-        success: false,
-        message: "Invalid password",
-      });
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid password",
+//       });
 
-    }
+//     }
 
-    // STORE SESSION
-    req.session.user = {
-      id: user._id,
-      role: user.role,
-    };
+//     // STORE SESSION
+//     req.session.user = {
+//       id: user._id,
+//       role: user.role,
+//     };
 
-    // REMOVE PASSWORD
-    const userWithoutPassword = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      company: user.company,
-      phone: user.phone,
-    };
+//     // REMOVE PASSWORD
+//     const userWithoutPassword = {
+//       _id: user._id,
+//       name: user.name,
+//       email: user.email,
+//       role: user.role,
+//       company: user.company,
+//       phone: user.phone,
+//     };
 
-    res.json({
-      success: true,
-      message: "Login successful",
-      user: userWithoutPassword,
-    });
+//     res.json({
+//       success: true,
+//       message: "Login successful",
+//       user: userWithoutPassword,
+//     });
 
-  } catch (error) {
+//   } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
 
-  }
+//   }
 
-};
+// };
 
-//LOGOUT USER
+// //LOGOUT USER
 
-const logoutUser = (req, res) => {
+// const logoutUser = (req, res) => {
 
-  req.session.destroy(() => {
+//   req.session.destroy(() => {
 
-    res.json({
-      success: true,
-      message: "Logged out successfully",
-    });
+//     res.json({
+//       success: true,
+//       message: "Logged out successfully",
+//     });
 
-  });
+//   });
 
-};
+// };
 
-// CHECK AUTH
+// // CHECK AUTH
 
-const checkAuth = async (req, res) => {
+// const checkAuth = async (req, res) => {
 
-  try {
+//   try {
 
-    if (!req.session.user) {
+//     if (!req.session.user) {
 
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized",
-      });
+//       return res.status(401).json({
+//         success: false,
+//         message: "Unauthorized",
+//       });
 
-    }
+//     }
 
-    const user =
-      await User.findById(
-        req.session.user.id
-      ).select("-password");
+//     const user =
+//       await User.findById(
+//         req.session.user.id
+//       ).select("-password");
 
-    res.json({
-      success: true,
-      user,
-    });
+//     res.json({
+//       success: true,
+//       user,
+//     });
 
-  } catch (error) {
+//   } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
 
-  }
+//   }
 
-};
+// };
 
-module.exports = {
-  registerUser,
-  loginUser,
-  logoutUser,
-  checkAuth,
-};
+// module.exports = {
+//   registerUser,
+//   loginUser,
+//   logoutUser,
+//   checkAuth,
+// };

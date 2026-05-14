@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import { AnimatePresence } from "framer-motion";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // COMPONENTS
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
