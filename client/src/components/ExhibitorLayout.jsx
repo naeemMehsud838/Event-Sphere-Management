@@ -231,7 +231,7 @@ export default function ExhibitorLayout() {
               <MessageCircle size={18} /> Messages
             </NavLink>
 
-            <NavLink to="/exhibitor/profile" className={linkClass}>
+            <NavLink to="/exhibitor/ExhibitorProfile" className={linkClass}>
               <User size={18} /> Profile
             </NavLink>
 
@@ -246,8 +246,7 @@ export default function ExhibitorLayout() {
           <div className="topbar">
             <Menu className="menu-btn" onClick={() => setMobileOpen(true)} />
             <h3>Exhibitor Panel</h3>
-            <div>Maryam</div>
-          </div>
+           </div>
 
           <div className="content">
             <Outlet />

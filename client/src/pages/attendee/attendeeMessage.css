@@ -65,7 +65,27 @@
   padding: 15px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
+.input-box button {
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  color: var(--accent);  /* This matches your chat-list background */
+  cursor: pointer;
+  background: var(--secondary);
+  transition: 0.3s;  /* Add smooth transition */
+}
 
+/* Optional: Add hover effect */
+.input-box button:hover:not(:disabled) {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+/* Optional: Style for disabled state */
+.input-box button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 /* MESSAGES */
 .messages {
   flex: 1;
@@ -132,3 +152,9 @@
     width: 100%;
   }
 }
+
+
+
+
+
+

@@ -26,24 +26,4 @@ module.exports = router;
 
 
 
-//----------------------------------------------
-// const express = require("express");
-
-// const router = express.Router();
-
-// const protect = require("../middleware/authMiddleware");
-
-// const authorizeRoles = require(
-//   "../middleware/roleMiddleware"
-// );
-
-// router.post(
-//   "/create",
-//   protect,
-//   authorizeRoles("admin", "organizer"),
-//   createExpo
-// );
-
-// router.get("/", getAllExpos);
-
-// module.exports = router;
+ 

@@ -2,89 +2,105 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
   
-  
   const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  // ✅ STATIC SUBMIT
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  //   console.log("Login Data:", form);
+    try {
+      console.log("Attempting login with:", form.email);
+      
+      const response = await axios.post(
+        "http://localhost:1000/api/users/login",
+        {
+          email: form.email,
+          password: form.password,
+        }
+      );
 
-  //   alert("Login submitted (static mode)");
+      console.log("Response data:", response.data);
 
-  //   // optional reset
-  //   setForm({ email: "", password: "" });
-  // };
+      const data = response.data;
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "http://localhost:1000/api/users/login", // ✅ FIXED
-      {
-        email: form.email,
-        password: form.password,
+      // ✅ FIXED: Check status === 1 (not success === true)
+      if (data.status === 1 && data.user)  {
+        
+        // ✅ SAVE TOKEN
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          console.log("✅ Token saved:", data.token.substring(0, 50) + "...");
+        } else {
+          console.error("❌ No token in response!");
+          toast.error("No token received");
+          setLoading(false);
+          return;
+        }
+        
+        // ✅ Save user info
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          console.log("✅ User saved:", data.user.email);
+        }
+        
+        // ✅ Verify token was saved
+        const savedToken = localStorage.getItem("token");
+        console.log("Verification - Token in localStorage:", savedToken ? "YES" : "NO");
+        
+        toast.success(data.message || "Login successful!");
+
+        // ✅ Role based redirect
+        const role = data.user?.role;
+        
+        setTimeout(() => {
+          if (role === "admin") {
+            navigate("/admin");
+          } else if (role === "exhibitor") {
+            navigate("/exhibitor");
+          } else {
+            navigate("/attendee");
+          }
+        }, 1000);
+
+      } else {
+        toast.error(data.message || "Login failed");
       }
-    );
 
-    const data = res.data;
-
-    console.log("LOGIN RESPONSE:", data);
-
-    if (data.status === 1) {
-
-      // ✅ TOKEN SAVE (IMPORTANT)
-      localStorage.setItem("token", data.token);
-
-      // ✅ USER SAVE
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      toast.success(data.message);
-
-      // ✅ ROLE BASED REDIRECT
-      const role = data.user.role;
-
-      if (role === "admin") {
-        navigate("/admin");
-      } 
-      else if (role === "exhibitor") {
-        navigate("/exhibitor");
-      } 
-      else {
-        navigate("/attendee");
+    } catch (error) {
+      console.error("Login Error:", error);
+      
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data?.message || "Login Failed");
+      } else if (error.request) {
+        toast.error("Cannot connect to server. Make sure backend is running on port 1000");
+      } else {
+        toast.error("Something went wrong: " + error.message);
       }
-
-    } else {
-      toast.error(data.message);
+    } finally {
+      setLoading(false);
     }
-
-  } catch (error) {
-    console.log(error);
-    toast.error(error.response?.data?.message || "Login Failed");
-  }
-};
+  };
 
   return (
     <>
       <div className="login-container">
         <div className="login-wrapper">
           
-          {/* HEADER */}
           <div className="login-header">
             <h2 className="login-title">Welcome Back</h2>
             <p className="login-subtitle">Sign in to your account</p>
           </div>
 
-          {/* CARD */}
           <div className="login-card">
             <form onSubmit={handleLogin} className="login-form">
               
@@ -109,12 +125,11 @@ const handleLogin = async (e) => {
                 className="input-field"
               />
 
-              <button type="submit" className="submit-btn">
-                Sign In
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </form>
 
-            {/* FOOTER */}
             <p className="login-footer">
               Don't have an account?{" "}
               <Link to="/register" className="login-link">

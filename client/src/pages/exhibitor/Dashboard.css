@@ -2,7 +2,6 @@
    ROOT FIX (VERY IMPORTANT)
 ========================= */
 
-
 /* =========================
    WRAPPER
 ========================= */
@@ -115,7 +114,6 @@
 ========================= */
 
 @media (max-width: 1024px) {
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -130,9 +128,6 @@
 ========================= */
 
 @media (max-width: 768px) {
-
-
-
   .exhibitor-wrapper {
     height: 100dvh;
     overflow: hidden;
@@ -163,7 +158,6 @@
 ========================= */
 
 @media (max-width: 480px) {
-
   .card {
     padding: 12px;
   }

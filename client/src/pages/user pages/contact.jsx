@@ -1,11 +1,23 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import "./contact.css";
+import AIChatbot from "../../components/AIChatbot";
+
 
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
   const [openPolicy, setOpenPolicy] = useState(null);
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  // ✅ Form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
 
   const faqs = [
     {
@@ -22,11 +34,56 @@ export default function Contact() {
     },
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSent(true);
+  // ✅ Handle form input change
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-    setTimeout(() => setSent(false), 2500);
+  // ✅ Handle form submit with backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:1000/api/messages/contact",
+        formData
+      );
+
+      if (response.data.success) {
+        setSent(true);
+        // Reset form
+        setFormData({ name: "", email: "", message: "" });
+        
+        setTimeout(() => {
+          setSent(false);
+        }, 2500);
+      } else {
+        toast.error(response.data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Send message error:", error);
+      toast.error(error.response?.data?.message || "Failed to send message");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,6 +103,9 @@ export default function Contact() {
         <img
           src="src/assets/contact-img.jpeg"
           alt="event"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/1200x400?text=EventSphere";
+          }}
         />
       </div>
 
@@ -57,22 +117,40 @@ export default function Contact() {
           <h2>Send Message</h2>
 
           <div className="field">
-            <input type="text" required />
+            <input 
+              type="text" 
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required 
+            />
             <label>Name</label>
           </div>
 
           <div className="field">
-            <input type="email" required />
+            <input 
+              type="email" 
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required 
+            />
             <label>Email</label>
           </div>
 
           <div className="field">
-            <textarea rows="4" required></textarea>
+            <textarea 
+              name="message"
+              rows="4" 
+              value={formData.message}
+              onChange={handleChange}
+              required
+            ></textarea>
             <label>Message</label>
           </div>
 
-          <button type="submit">
-            {sent ? "Sent ✔" : "Send Message"}
+          <button type="submit" disabled={loading}>
+            {loading ? "Sending..." : sent ? "Sent ✔" : "Send Message"}
           </button>
         </form>
 
@@ -90,89 +168,75 @@ export default function Contact() {
       </div>
 
       {/* FAQ */}
-    <div className="faq-section">
-  <h2>Frequently Asked Questions</h2>
+      <div className="faq-section">
+        <h2>Frequently Asked Questions</h2>
 
-  {faqs.map((item, i) => (
-    <div key={i} className={`faq-item ${openFaq === i ? "open" : ""}`}>
+        {faqs.map((item, i) => (
+          <div key={i} className={`faq-item ${openFaq === i ? "open" : ""}`}>
+            <div
+              className="faq-q"
+              onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            >
+              {item.q}
+              <span>{openFaq === i ? "−" : "+"}</span>
+            </div>
 
-      <div
-        className="faq-q"
-        onClick={() => setOpenFaq(openFaq === i ? null : i)}
-      >
-        {item.q}
-        <span>{openFaq === i ? "−" : "+"}</span>
+            <AnimatePresence>
+              {openFaq === i && (
+                <motion.div
+                  className="faq-a"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {item.a}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
       </div>
 
-      <AnimatePresence>
-        {openFaq === i && (
-          <motion.div
-            className="faq-a"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+      {/* PRIVACY & TERMS */}
+      <div className="policy-section">
+        <h2 className="section-title">Legal Information</h2>
+
+        {[
+          {
+            key: "terms",
+            title: "📜 Terms & Conditions",
+            text: "By using EventSphere, you agree to follow platform rules. Misuse may lead to account suspension.",
+          },
+          {
+            key: "privacy",
+            title: "🔒 Privacy Policy",
+            text: "We protect your data with encryption and never share it with third parties.",
+          },
+        ].map((p) => (
+          <div
+            key={p.key}
+            className={`policy-card ${openPolicy === p.key ? "open" : ""}`}
           >
-            {item.a}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div
+              className="policy-header"
+              onClick={() => setOpenPolicy(openPolicy === p.key ? null : p.key)}
+            >
+              <h3>{p.title}</h3>
+              <span>{openPolicy === p.key ? "−" : "+"}</span>
+            </div>
 
-    </div>
-  ))}
-</div>
-{/* //PRIVACY & TERMS */}
-     <div className="policy-section">
-
-  <h2 className="section-title">Legal Information</h2>
-
-  {[
-    {
-      key: "terms",
-      title: "📜 Terms & Conditions",
-      text: "By using EventSphere, you agree to follow platform rules. Misuse may lead to account suspension.",
-    },
-    {
-      key: "privacy",
-      title: "🔒 Privacy Policy",
-      text: "We protect your data with encryption and never share it with third parties.",
-    },
-  ].map((p) => (
-    <div
-      key={p.key}
-      className={`policy-card ${openPolicy === p.key ? "open" : ""}`}
-    >
-
-      {/* HEADER */}
-      <div
-        className="policy-header"
-        onClick={() =>
-          setOpenPolicy(openPolicy === p.key ? null : p.key)
-        }
-      >
-        <h3>{p.title}</h3>
-        <span>{openPolicy === p.key ? "−" : "+"}</span>
+            <motion.div
+              className="policy-text"
+              initial={false}
+              animate={openPolicy === p.key ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <div className="policy-inner">{p.text}</div>
+            </motion.div>
+          </div>
+        ))}
       </div>
-
-      {/* ✅ SMOOTH ANIMATED CONTENT */}
-      <motion.div
-        className="policy-text"
-        initial={false}
-        animate={
-          openPolicy === p.key
-            ? { height: "auto", opacity: 1 }
-            : { height: 0, opacity: 0 }
-        }
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-      >
-        <div className="policy-inner">
-          {p.text}
-        </div>
-      </motion.div>
-
-    </div>
-  ))}
-</div>
 
       {/* SUCCESS MODAL */}
       <AnimatePresence>
@@ -191,11 +255,16 @@ export default function Contact() {
             >
               <div className="check">✔</div>
               <h2>Message Sent!</h2>
-              <p>We’ll contact you soon.</p>
+              <p>We'll contact you soon.</p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      <div className="ai-assistant-box">
+  <h2>🤖 AI Assistant</h2>
+  <p>Have questions? Chat with our AI assistant</p>
+  <AIChatbot isOpen={true} />
+</div>
 
     </div>
   );

@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "./pricing.css";
 
 export default function Pricing() {
+  const navigate = useNavigate();
+  
+  // ✅ Get user role from localStorage
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const userRole = storedUser?.role;
+  const isLoggedIn = !!storedUser?.token || !!localStorage.getItem("token");
+
   const plans = [
     {
       name: "Starter Event",
@@ -12,6 +20,7 @@ export default function Pricing() {
         "Basic Dashboard",
         "Email Support",
       ],
+      role: "all"
     },
     {
       name: "Professional Events",
@@ -23,6 +32,7 @@ export default function Pricing() {
         "Advanced Analytics",
       ],
       popular: true,
+      role: "all"
     },
     {
       name: "Enterprise Scale",
@@ -33,8 +43,19 @@ export default function Pricing() {
         "Custom branding",
         "Dedicated support",
       ],
+      role: "exhibitor"
     },
   ];
+
+  // ✅ Handle Choose Plan button - Always go to Register
+  const handleChoosePlan = () => {
+    navigate("/register");
+  };
+
+  // ✅ Handle Get Started button - Always go to Register
+  const handleGetStarted = () => {
+    navigate("/register");
+  };
 
   return (
     <div className="pricing-wrapper">
@@ -79,7 +100,10 @@ export default function Pricing() {
               ))}
             </ul>
 
-            <button link="/signup">Choose Plan</button>
+            {/* ✅ Choose Plan button - Always navigates to Register */}
+            <button onClick={handleChoosePlan}>
+              Choose Plan
+            </button>
           </motion.div>
         ))}
       </div>
@@ -114,27 +138,73 @@ export default function Pricing() {
       </motion.div>
 
       {/* FINAL CTA */}
-     {/* FINAL CTA */}
-<motion.div
-  className="pricing-cta"
-  initial={{ opacity: 0 }}
-  whileInView={{ opacity: 1 }}
-  viewport={{ once: true }}
->
-  <h2>Ready to Host Your Next Event?</h2>
-  <p>Start with EventSphere today — no complexity, just results.</p>
+      <motion.div
+        className="pricing-cta"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        <h2>Ready to Host Your Next Event?</h2>
+        <p>Start with EventSphere today — no complexity, just results.</p>
 
-  {/* IMAGE ADDED */}
-  <div className="cta-image">
-    <img
-      src="src/assets/pricing-img.jpeg"
-      alt="EventSphere Event"
-    />
-  </div>
+        {/* IMAGE ADDED */}
+        <div className="cta-image">
+          <img
+            src="src/assets/pricing-img.jpeg"
+            alt="EventSphere Event"
+            onError={(e) => {
+              e.target.src = "https://via.placeholder.com/800x400?text=EventSphere";
+            }}
+          />
+        </div>
 
-  <button link="/signup">Get Started Free</button>
-</motion.div>
+        {/* ✅ Get Started button - Always navigates to Register */}
+        <button onClick={handleGetStarted}>
+          Get Started Free
+        </button>
+      </motion.div>
 
+      {/* ✅ Show Create Event prompt for logged in exhibitors/admins */}
+      {isLoggedIn && (userRole === "admin" || userRole === "exhibitor") && (
+        <motion.div
+          className="create-event-prompt"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          {/* <div className="prompt-card">
+            <span>🎉</span>
+            <div>
+              <h3>Ready to create your first event?</h3>
+              <p>As an {userRole === "admin" ? "Admin" : "Exhibitor"}, you can start creating events right away!</p>
+            </div>
+            <button onClick={() => navigate("/create-event")}>
+              + Create New Event
+            </button> */}
+          {/* </div> */}
+        </motion.div>
+      )}
+
+      {/* ✅ Login prompt for non-logged in users */}
+      {!isLoggedIn && (
+        <motion.div
+          className="login-prompt"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <div className="prompt-card login-card">
+            <span>🔐</span>
+            <div>
+              <h3>Already have an account?</h3>
+              <p>Sign in to access your dashboard and start managing events.</p>
+            </div>
+            <button onClick={() => navigate("/login")}>
+              Login Now
+            </button>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

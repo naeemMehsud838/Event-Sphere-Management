@@ -21,20 +21,34 @@ const userSchema = new mongoose.Schema(
     },
 
     role: {
-     type: String,
-     enum: ["attendee", "admin", "exhibitor"],
-     default: "attendee"
+      type: String,
+      enum: ["attendee", "admin", "exhibitor"],
+      default: "attendee",
     },
 
     company: {
       type: String,
+      default: "",
     },
 
     phone: {
       type: String,
+      default: "",
+    },
+
+    // 🔥 Approval system
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+
+    isApproved: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

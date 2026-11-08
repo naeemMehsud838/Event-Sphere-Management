@@ -217,6 +217,56 @@ body.light-mode .cem-header{
   backdrop-filter:blur(10px);
 }
 
+/* ✅ FIXED 50x50 IMAGE PREVIEW */
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.image-preview-wrapper {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-preview-fixed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  background: rgba(220, 53, 69, 0.8);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.remove-image-btn:hover {
+  background: #dc3545;
+  transform: scale(1.02);
+}
+
+/* Optional: If you want horizontal layout for preview */
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 /* PLACEHOLDER */
 .cem-input::placeholder,
 .cem-textarea::placeholder{

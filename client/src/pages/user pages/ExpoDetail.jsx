@@ -1,317 +1,9 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import "./ExpoDetail.css";
 import UpdateExpoModal from "../../components/expo/UpdateExpoModal";
-
-// Static Expo Data (same as ExposPage)
-const STATIC_EXPOS = [
-  {
-    _id: "1",
-    title: "AI & Robotics Summit 2026",
-    description:
-      "Explore the future of artificial intelligence and robotics with industry leaders and innovators from around the globe.",
-    location: "Dubai, UAE",
-    startDate: "2026-08-15",
-    endDate: "2026-08-17",
-    category: "Technology",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
-    maxAttendees: 5000,
-    registeredAttendees: 3240,
-    ticketPrice: 299,
-    tags: ["AI", "Robotics", "Innovation", "Tech"],
-  },
-  {
-    _id: "2",
-    title: "Global Fashion Week",
-    description:
-      "Witness the latest fashion trends, designer collections, and runway shows from top fashion houses worldwide.",
-    location: "Paris, France",
-    startDate: "2026-09-20",
-    endDate: "2026-09-25",
-    category: "Fashion",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg",
-    maxAttendees: 3000,
-    registeredAttendees: 2890,
-    ticketPrice: 450,
-    tags: ["Fashion", "Design", "Runway", "Style"],
-  },
-  {
-    _id: "3",
-    title: "World Food Festival",
-    description:
-      "A culinary journey featuring world-class chefs, food tastings, cooking demonstrations, and gastronomic excellence.",
-    location: "Tokyo, Japan",
-    startDate: "2026-07-10",
-    endDate: "2026-07-12",
-    category: "Food",
-    status: "ongoing",
-    coverImage:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
-    maxAttendees: 4500,
-    registeredAttendees: 4200,
-    ticketPrice: 180,
-    tags: ["Food", "Culinary", "Chefs", "Gastronomy"],
-  },
-  {
-    _id: "4",
-    title: "Contemporary Art Expo",
-    description:
-      "Discover groundbreaking contemporary art from emerging and established artists across various mediums and styles.",
-    location: "New York, USA",
-    startDate: "2026-10-05",
-    endDate: "2026-10-08",
-    category: "Art",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1546901/pexels-photo-1546901.jpeg",
-    maxAttendees: 2500,
-    registeredAttendees: 1850,
-    ticketPrice: 120,
-    tags: ["Art", "Gallery", "Contemporary", "Exhibition"],
-  },
-  {
-    _id: "5",
-    title: "Global Business Summit",
-    description:
-      "Connect with business leaders, investors, and entrepreneurs to discuss market trends, innovations, and opportunities.",
-    location: "Singapore",
-    startDate: "2026-06-15",
-    endDate: "2026-06-18",
-    category: "Business",
-    status: "completed",
-    coverImage:
-      "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg",
-    maxAttendees: 6000,
-    registeredAttendees: 5800,
-    ticketPrice: 599,
-    tags: ["Business", "Networking", "Investment", "Leadership"],
-  },
-  {
-    _id: "6",
-    title: "Science & Innovation Expo",
-    description:
-      "Showcasing cutting-edge scientific research, breakthrough discoveries, and innovative technologies shaping our future.",
-    location: "London, UK",
-    startDate: "2026-11-22",
-    endDate: "2026-11-24",
-    category: "Science",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
-    maxAttendees: 4000,
-    registeredAttendees: 2650,
-    ticketPrice: 250,
-    tags: ["Science", "Research", "Innovation", "Discovery"],
-  },
-  {
-    _id: "7",
-    title: "Tech Startup Conference",
-    description:
-      "Meet innovative startups, pitch to investors, and explore emerging technologies disrupting traditional industries.",
-    location: "San Francisco, USA",
-    startDate: "2026-08-28",
-    endDate: "2026-08-30",
-    category: "Technology",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg",
-    maxAttendees: 3500,
-    registeredAttendees: 3100,
-    ticketPrice: 350,
-    tags: ["Startups", "Tech", "Innovation", "Venture Capital"],
-  },
-  {
-    _id: "8",
-    title: "Sustainable Living Fair",
-    description:
-      "Learn about eco-friendly products, renewable energy, sustainable practices, and green innovations for a better planet.",
-    location: "Copenhagen, Denmark",
-    startDate: "2026-09-10",
-    endDate: "2026-09-12",
-    category: "Other",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg",
-    maxAttendees: 2800,
-    registeredAttendees: 2200,
-    ticketPrice: 95,
-    tags: ["Sustainability", "Green", "Eco", "Environment"],
-  },
-  {
-    _id: "9",
-    title: "Digital Marketing Summit",
-    description:
-      "Master the latest digital marketing strategies, SEO techniques, social media trends, and growth hacking methods.",
-    location: "Mumbai, India",
-    startDate: "2026-07-25",
-    endDate: "2026-07-27",
-    category: "Business",
-    status: "ongoing",
-    coverImage:
-      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg",
-    maxAttendees: 5500,
-    registeredAttendees: 5200,
-    ticketPrice: 199,
-    tags: ["Marketing", "Digital", "SEO", "Growth"],
-  },
-  {
-    _id: "10",
-    title: "Gaming & Esports Expo",
-    description:
-      "Experience the latest gaming titles, meet professional esports players, and discover gaming hardware and innovations.",
-    location: "Seoul, South Korea",
-    startDate: "2026-12-08",
-    endDate: "2026-12-10",
-    category: "Technology",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg",
-    maxAttendees: 8000,
-    registeredAttendees: 6800,
-    ticketPrice: 149,
-    tags: ["Gaming", "Esports", "Technology", "Entertainment"],
-  },
-  {
-    _id: "11",
-    title: "Luxury Fashion Summit",
-    description:
-      "Exclusive showcase of haute couture, luxury brands, and high-end fashion innovations from around the world.",
-    location: "Milan, Italy",
-    startDate: "2026-10-12",
-    endDate: "2026-10-15",
-    category: "Fashion",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg",
-    maxAttendees: 1800,
-    registeredAttendees: 1420,
-    ticketPrice: 750,
-    tags: ["Luxury", "Couture", "HighFashion", "Designer"],
-  },
-  {
-    _id: "12",
-    title: "International Street Food Festival",
-    description:
-      "Taste authentic street food from 50+ countries with live cooking shows and culinary competitions.",
-    location: "Bangkok, Thailand",
-    startDate: "2026-08-05",
-    endDate: "2026-08-07",
-    category: "Food",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg",
-    maxAttendees: 12000,
-    registeredAttendees: 10800,
-    ticketPrice: 89,
-    tags: ["StreetFood", "Culinary", "Festival", "Global"],
-  },
-  {
-    _id: "13",
-    title: "Modern Art & Design Fair",
-    description:
-      "Celebrate contemporary art, design, and architecture with immersive installations and artist talks.",
-    location: "Berlin, Germany",
-    startDate: "2026-09-18",
-    endDate: "2026-09-21",
-    category: "Art",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/2901215/pexels-photo-2901215.jpeg",
-    maxAttendees: 3200,
-    registeredAttendees: 2780,
-    ticketPrice: 220,
-    tags: ["ModernArt", "Design", "Architecture", "Installation"],
-  },
-  {
-    _id: "14",
-    title: "Quantum Computing Conference",
-    description:
-      "Explore quantum algorithms, hardware breakthroughs, and practical applications of quantum technology.",
-    location: "Boston, USA",
-    startDate: "2026-11-10",
-    endDate: "2026-11-12",
-    category: "Science",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/3559483/pexels-photo-3559483.jpeg",
-    maxAttendees: 2200,
-    registeredAttendees: 1980,
-    ticketPrice: 650,
-    tags: ["Quantum", "Computing", "Science", "Research"],
-  },
-  {
-    _id: "15",
-    title: "Sustainable Fashion Expo",
-    description:
-      "Showcasing eco-friendly fashion, circular economy, and ethical production practices for the future.",
-    location: "Amsterdam, Netherlands",
-    startDate: "2026-07-30",
-    endDate: "2026-08-01",
-    category: "Fashion",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1461260/pexels-photo-1461260.jpeg",
-    maxAttendees: 2600,
-    registeredAttendees: 2340,
-    ticketPrice: 175,
-    tags: ["Sustainable", "EcoFashion", "Ethical", "Circular"],
-  },
-  {
-    _id: "16",
-    title: "HealthTech & Biotech Summit",
-    description:
-      "Revolutionary healthcare technologies, medical AI, biotech innovations, and digital health solutions.",
-    location: "Zurich, Switzerland",
-    startDate: "2026-09-28",
-    endDate: "2026-09-30",
-    category: "Technology",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/4164872/pexels-photo-4164872.jpeg",
-    maxAttendees: 4500,
-    registeredAttendees: 4120,
-    ticketPrice: 525,
-    tags: ["HealthTech", "Biotech", "MedicalAI", "Healthcare"],
-  },
-  {
-    _id: "17",
-    title: "Creative Directors Forum",
-    description:
-      "Where top creative directors share strategies for brand storytelling, visual identity, and innovation.",
-    location: "Los Angeles, USA",
-    startDate: "2026-06-22",
-    endDate: "2026-06-24",
-    category: "Business",
-    status: "ongoing",
-    coverImage:
-      "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg",
-    maxAttendees: 1500,
-    registeredAttendees: 1480,
-    ticketPrice: 799,
-    tags: ["Creative", "Branding", "Design", "Leadership"],
-  },
-  {
-    _id: "18",
-    title: "Space Tech & Aerospace Expo",
-    description:
-      "Latest in space exploration, satellite technology, aerospace engineering, and commercial spaceflight.",
-    location: "Cape Canaveral, USA",
-    startDate: "2026-12-15",
-    endDate: "2026-12-17",
-    category: "Science",
-    status: "upcoming",
-    coverImage:
-      "https://images.pexels.com/photos/1166751/pexels-photo-1166751.jpeg",
-    maxAttendees: 6800,
-    registeredAttendees: 5920,
-    ticketPrice: 425,
-    tags: ["Space", "Aerospace", "Satellite", "Exploration"],
-  },
-];
 
 const STATUS_CONFIG = {
   upcoming: {
@@ -325,50 +17,193 @@ const STATUS_CONFIG = {
 
 export default function ExpoDetail() {
   const { id } = useParams();
+  console.log("📌 Event ID from URL:", id);
+  console.log("📌 Type of ID:", typeof id);
+  console.log("📌 ID length:", id?.length);
+  
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [expo, setExpo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
 
-  const expo = STATIC_EXPOS.find((e) => e._id === id);
+  // Get user role
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setUserRole(storedUser.role);
+    console.log("👤 User role:", storedUser.role);
+  }, []);
+
+  // Fetch event details from backend
+  useEffect(() => {
+    if (id) {
+      fetchEventDetails();
+    } else {
+      console.error("❌ No ID found!");
+      toast.error("Invalid event ID");
+      navigate("/events");
+    }
+  }, [id]);
+
+  const fetchEventDetails = async () => {
+    try {
+      setLoading(true);
+      console.log("🔍 Fetching event with ID:", id);
+      
+      // Check if it's a MongoDB ObjectId (24 characters hex) or numeric ID
+      const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+      const isNumericId = /^\d+$/.test(id);
+      
+      console.log("🔍 Is MongoDB ID:", isMongoId);
+      console.log("🔍 Is Numeric ID:", isNumericId);
+      
+      let response;
+      
+      if (isMongoId) {
+        // Backend real ID - try both admin and public endpoints
+        try {
+          console.log("📡 Trying public endpoint: http://localhost:1000/api/events/${id}");
+          response = await axios.get(`http://localhost:1000/api/events/${id}`);
+        } catch (publicError) {
+          console.log("Public endpoint failed, trying admin endpoint...");
+          response = await axios.get(`http://localhost:1000/api/admin/events/${id}`);
+        }
+      } else {
+        // Static numeric ID - use admin endpoint with static data
+        console.log("📡 Using admin endpoint for numeric ID");
+        response = await axios.get(`http://localhost:1000/api/admin/events/${id}`);
+      }
+      
+      console.log("📡 API Response status:", response.status);
+      console.log("📡 API Response data:", response.data);
+      
+      // Extract event data from response
+      let eventData = null;
+      
+      if (response.data.success && response.data.event) {
+        eventData = response.data.event;
+      } else if (response.data.event) {
+        eventData = response.data.event;
+      } else if (response.data.data && response.data.data.event) {
+        eventData = response.data.data.event;
+      } else if (response.data._id || response.data.id) {
+        eventData = response.data;
+      } else {
+        eventData = response.data;
+      }
+      
+      if (eventData && (eventData._id || eventData.id)) {
+        console.log("✅ Event found:", eventData.title);
+        setExpo(eventData);
+      } else {
+        console.error("❌ No event data in response");
+        toast.error("Event not found");
+        navigate("/events");
+      }
+    } catch (error) {
+      console.error("❌ Fetch error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      
+      if (error.response?.status === 404) {
+        toast.error("Event not found (404)");
+      } else if (error.response?.status === 500) {
+        toast.error("Server error. Please try again later.");
+      } else {
+        toast.error(error.response?.data?.message || "Failed to load event details");
+      }
+      navigate("/events");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete event
+  const handleDelete = async () => {
+    if (!confirm(`🗑️ Delete "${expo?.title}"?\n\nThis event will be permanently deleted.`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const eventId = expo._id || expo.id;
+      
+      const response = await axios.delete(
+        `http://localhost:1000/api/admin/events/${eventId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.data.success) {
+        toast.success("Event deleted successfully!");
+        navigate("/events");
+      } else {
+        toast.error(response.data.message || "Failed to delete event");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error(error.response?.data?.message || "Failed to delete event");
+    }
+  };
+
+  // Check if user can edit/delete
+  const canEdit = () => {
+    if (!userRole) return false;
+    if (userRole === "admin") return true;
+    if (userRole === "exhibitor" && expo?.organizer?._id) {
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      return expo.organizer._id === storedUser._id;
+    }
+    return false;
+  };
+
+  if (loading) {
+    return (
+      <div className="ed-root">
+        <div className="ed-mesh" />
+        <div className="ed-inner" style={{ textAlign: "center", padding: "80px" }}>
+          <div className="loading-spinner"></div>
+          <p>Loading event details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!expo) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "var(--ep-bg)",
-          color: "var(--ep-text)",
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>404</h1>
-          <p style={{ marginBottom: "2rem" }}>Expo not found</p>
-          <Link
-            to="/expos"
-            style={{
-              padding: "12px 32px",
-              borderRadius: "999px",
-              background: "linear-gradient(135deg, #6c6d91, #340536)",
-              color: "white",
-              textDecoration: "none",
-              fontWeight: 600,
-            }}
-          >
-            Back to Expos
-          </Link>
+      <div className="ed-root">
+        <div className="ed-mesh" />
+        <div className="ed-inner">
+          <div style={{ textAlign: "center", padding: "80px" }}>
+            <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>404</h1>
+            <p style={{ marginBottom: "2rem" }}>Event not found</p>
+            <Link
+              to="/events"
+              style={{
+                padding: "12px 32px",
+                borderRadius: "999px",
+                background: "linear-gradient(135deg, #667eea, #764ba2)",
+                color: "white",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              Back to Events
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   const statusConfig = STATUS_CONFIG[expo.status] || STATUS_CONFIG.upcoming;
-  const attendancePercentage = (
-    (expo.registeredAttendees / expo.maxAttendees) *
-    100
-  ).toFixed(0);
+  const attendancePercentage = expo.maxAttendees && expo.maxAttendees > 0
+    ? ((expo.registeredAttendees || 0) / expo.maxAttendees * 100).toFixed(0)
+    : 0;
 
   return (
     <>
@@ -384,7 +219,7 @@ export default function ExpoDetail() {
               marginBottom: "24px",
             }}
           >
-            <Link to="/expos" className="ed-back">
+            <Link to="/events" className="ed-back">
               <svg
                 width="16"
                 height="16"
@@ -395,42 +230,39 @@ export default function ExpoDetail() {
               >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
-              Back to Expos
+              Back to Events
             </Link>
 
-            {/* 👇 NEW: Admin Action Buttons */}
-            <div className="ed-admin-actions">
-              <button
-                className="ed-admin-btn ed-admin-update"
-                onClick={() => setShowUpdateModal(true)}
-                title="Update Expo"
-              >
-                ✏️ Edit
-              </button>
-              <button
-                className="ed-admin-btn ed-admin-delete"
-                onClick={() => {
-                  if (
-                    confirm(
-                      `🗑️ Delete "${expo.title}"?\n\nThis expo will be permanently deleted.`,
-                    )
-                  ) {
-                    alert(`✅ "${expo.title}" deleted successfully!`);
-                  }
-                }}
-                title="Delete Expo"
-              >
-                🗑️ Delete
-              </button>
-            </div>
+            {/* Admin/Exhibitor Action Buttons */}
+            {canEdit() && (
+              <div className="ed-admin-actions">
+                <button
+                  className="ed-admin-btn ed-admin-update"
+                  onClick={() => setShowUpdateModal(true)}
+                  title="Update Event"
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  className="ed-admin-btn ed-admin-delete"
+                  onClick={handleDelete}
+                  title="Delete Event"
+                >
+                  🗑️ Delete
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Hero Banner */}
           <div className="ed-hero">
             <img
-              src={expo.coverImage}
+              src={expo.coverImage || "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"}
               alt={expo.title}
               className="ed-hero-img"
+              onError={(e) => {
+                e.target.src = "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg";
+              }}
             />
             <div className="ed-hero-overlay"></div>
             <div className="ed-hero-content">
@@ -466,23 +298,23 @@ export default function ExpoDetail() {
                 <div className="ed-meta-item">
                   <span>📅</span>
                   <span>
-                    {new Date(expo.startDate).toLocaleDateString("en-US", {
+                    {expo.startDate ? new Date(expo.startDate).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
-                    })}
+                    }) : "TBA"}
                     {" - "}
-                    {new Date(expo.endDate).toLocaleDateString("en-US", {
+                    {expo.endDate ? new Date(expo.endDate).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
-                    })}
+                    }) : "TBA"}
                   </span>
                 </div>
                 <div className="ed-meta-item">
                   <span>👥</span>
                   <span>
-                    {expo.registeredAttendees.toLocaleString()} attending
+                    {(expo.registeredAttendees || 0).toLocaleString()} attending
                   </span>
                 </div>
               </div>
@@ -527,26 +359,10 @@ export default function ExpoDetail() {
                       together industry leaders, innovators, and enthusiasts
                       from around the world.
                     </p>
-                    <p className="ed-description">
-                      Whether you're looking to network, learn about the latest
-                      trends, or showcase your innovations, this expo offers
-                      something for everyone. Don't miss this opportunity to be
-                      part of something extraordinary.
-                    </p>
 
                     {expo.tags && expo.tags.length > 0 && (
                       <>
-                        <h3
-                          style={{
-                            fontSize: "1.2rem",
-                            fontWeight: 600,
-                            marginTop: "32px",
-                            marginBottom: "16px",
-                            color: "var(--ed-text)",
-                          }}
-                        >
-                          Event Tags
-                        </h3>
+                        <h3 className="ed-tags-title">Event Tags</h3>
                         <div className="ed-tags">
                           {expo.tags.map((tag, i) => (
                             <span key={i} className="ed-tag">
@@ -564,106 +380,41 @@ export default function ExpoDetail() {
                     <h2 className="ed-section-title">Event Details</h2>
                     <div style={{ display: "grid", gap: "20px" }}>
                       <div>
-                        <h4
-                          style={{
-                            fontSize: "14px",
-                            color: "var(--ed-muted)",
-                            marginBottom: "8px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.5px",
-                          }}
-                        >
-                          Location
-                        </h4>
-                        <p
-                          style={{
-                            fontSize: "16px",
-                            color: "var(--ed-text)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {expo.location}
-                        </p>
+                        <h4 className="ed-detail-label">Location</h4>
+                        <p className="ed-detail-value">{expo.location}</p>
                       </div>
                       <div>
-                        <h4
-                          style={{
-                            fontSize: "14px",
-                            color: "var(--ed-muted)",
-                            marginBottom: "8px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.5px",
-                          }}
-                        >
-                          Duration
-                        </h4>
-                        <p
-                          style={{
-                            fontSize: "16px",
-                            color: "var(--ed-text)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {new Date(expo.startDate).toLocaleDateString(
-                            "en-US",
-                            {
-                              weekday: "long",
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            },
-                          )}
-                          {" - "}
-                          {new Date(expo.endDate).toLocaleDateString("en-US", {
+                        <h4 className="ed-detail-label">Dates</h4>
+                        <p className="ed-detail-value">
+                          {expo.startDate ? new Date(expo.startDate).toLocaleDateString("en-US", {
                             weekday: "long",
                             month: "long",
                             day: "numeric",
                             year: "numeric",
-                          })}
+                          }) : "TBA"}
+                          {" - "}
+                          {expo.endDate ? new Date(expo.endDate).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          }) : "TBA"}
                         </p>
                       </div>
                       <div>
-                        <h4
-                          style={{
-                            fontSize: "14px",
-                            color: "var(--ed-muted)",
-                            marginBottom: "8px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.5px",
-                          }}
-                        >
-                          Category
-                        </h4>
-                        <p
-                          style={{
-                            fontSize: "16px",
-                            color: "var(--ed-text)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {expo.category}
+                        <h4 className="ed-detail-label">Category</h4>
+                        <p className="ed-detail-value">{expo.category}</p>
+                      </div>
+                      <div>
+                        <h4 className="ed-detail-label">Ticket Price</h4>
+                        <p className="ed-detail-value">
+                          {expo.ticketPrice === 0 ? "FREE" : `$${expo.ticketPrice}`}
                         </p>
                       </div>
                       <div>
-                        <h4
-                          style={{
-                            fontSize: "14px",
-                            color: "var(--ed-muted)",
-                            marginBottom: "8px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.5px",
-                          }}
-                        >
-                          Capacity
-                        </h4>
-                        <p
-                          style={{
-                            fontSize: "16px",
-                            color: "var(--ed-text)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {expo.maxAttendees.toLocaleString()} attendees maximum
+                        <h4 className="ed-detail-label">Capacity</h4>
+                        <p className="ed-detail-value">
+                          {expo.maxAttendees?.toLocaleString() || "Unlimited"} attendees maximum
                         </p>
                       </div>
                     </div>
@@ -678,24 +429,8 @@ export default function ExpoDetail() {
                       the event date. Stay tuned for updates on keynote
                       speakers, workshops, and networking sessions.
                     </p>
-                    <div
-                      style={{
-                        marginTop: "24px",
-                        padding: "24px",
-                        background: "var(--ed-surface)",
-                        borderRadius: "16px",
-                        border: "1px solid var(--ed-border)",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          color: "var(--ed-sub)",
-                          textAlign: "center",
-                        }}
-                      >
-                        📅 Full schedule coming soon
-                      </p>
+                    <div className="ed-schedule-placeholder">
+                      <p>📅 Full schedule coming soon</p>
                     </div>
                   </>
                 )}
@@ -705,7 +440,7 @@ export default function ExpoDetail() {
             {/* Sidebar */}
             <div className="ed-sidebar">
               {/* Pricing Card */}
-              <div className="ed-sidebar-card" style={{ position: "relative" }}>
+              <div className="ed-sidebar-card">
                 <div className="ed-price-tag">
                   {expo.ticketPrice === 0 ? "FREE" : `$${expo.ticketPrice}`}
                 </div>
@@ -713,113 +448,98 @@ export default function ExpoDetail() {
 
                 <button
                   className="ed-register-btn"
-                  onClick={() => navigate("/login")}
+                  onClick={() => {
+                    const user = JSON.parse(localStorage.getItem("user") || "{}");
+                    if (!user.email) {
+                      toast.info("Please login to register");
+                      navigate("/login");
+                    } else {
+                      toast.info("Registration feature coming soon!");
+                    }
+                  }}
                 >
                   Register Now
                 </button>
 
-                <div>
+                <div className="ed-stats">
                   <div className="ed-stat-row">
-                    <span className="ed-stat-label">
-                      <span>👥</span>
-                      Attendees
-                    </span>
+                    <span className="ed-stat-label">👥 Attendees</span>
                     <span className="ed-stat-value">
-                      {expo.registeredAttendees.toLocaleString()}
+                      {(expo.registeredAttendees || 0).toLocaleString()}
                     </span>
                   </div>
                   <div className="ed-stat-row">
-                    <span className="ed-stat-label">
-                      <span>🎟️</span>
-                      Available Spots
-                    </span>
+                    <span className="ed-stat-label">🎟️ Available Spots</span>
                     <span className="ed-stat-value">
-                      {(
-                        expo.maxAttendees - expo.registeredAttendees
-                      ).toLocaleString()}
+                      {((expo.maxAttendees || 0) - (expo.registeredAttendees || 0)).toLocaleString()}
                     </span>
                   </div>
                   <div className="ed-stat-row">
-                    <span className="ed-stat-label">
-                      <span>📍</span>
-                      Location
-                    </span>
+                    <span className="ed-stat-label">📍 Location</span>
                     <span className="ed-stat-value">{expo.location}</span>
                   </div>
                 </div>
 
-                <div className="ed-progress-bar">
-                  <div
-                    className="ed-progress-fill"
-                    style={{ width: `${attendancePercentage}%` }}
-                  ></div>
-                </div>
-                <div className="ed-progress-text">
-                  {attendancePercentage}% filled •{" "}
-                  {expo.maxAttendees - expo.registeredAttendees} spots remaining
-                </div>
+                {expo.maxAttendees && expo.maxAttendees > 0 && (
+                  <>
+                    <div className="ed-progress-bar">
+                      <div
+                        className="ed-progress-fill"
+                        style={{ width: `${attendancePercentage}%` }}
+                      ></div>
+                    </div>
+                    <div className="ed-progress-text">
+                      {attendancePercentage}% filled •{" "}
+                      {(expo.maxAttendees - (expo.registeredAttendees || 0)).toLocaleString()} spots remaining
+                    </div>
+                  </>
+                )}
               </div>
 
+              {/* Organizer Card */}
+              {expo.organizer && (
+                <div className="ed-sidebar-card">
+                  <h3 className="ed-sidebar-title">Organizer</h3>
+                  <div className="ed-organizer-info">
+                    <div className="ed-organizer-avatar">
+                      {expo.organizer.name?.charAt(0)?.toUpperCase() || "E"}
+                    </div>
+                    <div>
+                      <p className="ed-organizer-name">{expo.organizer.name}</p>
+                      <p className="ed-organizer-email">{expo.organizer.email}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Share Card */}
-              <div className="ed-sidebar-card" style={{ position: "relative" }}>
-                <h3
-                  style={{
-                    fontSize: "1.1rem",
-                    fontWeight: 700,
-                    marginBottom: "16px",
-                    color: "var(--ed-text)",
-                  }}
-                >
-                  Share Event
-                </h3>
-                <div style={{ display: "flex", gap: "12px" }}>
+              <div className="ed-sidebar-card">
+                <h3 className="ed-sidebar-title">Share Event</h3>
+                <div className="ed-share-buttons">
                   <button
-                    style={{
-                      flex: 1,
-                      padding: "12px",
-                      borderRadius: "12px",
-                      border: "1px solid var(--ed-border)",
-                      background: "var(--ed-surface)",
-                      color: "var(--ed-text)",
-                      cursor: "pointer",
-                      transition: "all 0.3s",
-                      fontWeight: 600,
-                      fontSize: "24px",
+                    className="ed-share-btn"
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.href);
+                      toast.success("Link copied to clipboard!");
                     }}
                   >
-                    📱
+                    🔗 Copy Link
                   </button>
                   <button
-                    style={{
-                      flex: 1,
-                      padding: "12px",
-                      borderRadius: "12px",
-                      border: "1px solid var(--ed-border)",
-                      background: "var(--ed-surface)",
-                      color: "var(--ed-text)",
-                      cursor: "pointer",
-                      transition: "all 0.3s",
-                      fontWeight: 600,
-                      fontSize: "24px",
+                    className="ed-share-btn"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: expo.title,
+                          text: expo.description,
+                          url: window.location.href,
+                        });
+                      } else {
+                        toast.info("Share feature not supported");
+                      }
                     }}
                   >
-                    🔗
-                  </button>
-                  <button
-                    style={{
-                      flex: 1,
-                      padding: "12px",
-                      borderRadius: "12px",
-                      border: "1px solid var(--ed-border)",
-                      background: "var(--ed-surface)",
-                      color: "var(--ed-text)",
-                      cursor: "pointer",
-                      transition: "all 0.3s",
-                      fontWeight: 600,
-                      fontSize: "24px",
-                    }}
-                  >
-                    ✉️
+                    📤 Share
                   </button>
                 </div>
               </div>
@@ -828,12 +548,17 @@ export default function ExpoDetail() {
         </div>
       </div>
 
-      {/* 👇 Update Modal */}
-      <UpdateExpoModal
-        expo={expo}
-        open={showUpdateModal}
-        onClose={() => setShowUpdateModal(false)}
-      />
+      {/* Update Modal */}
+      {showUpdateModal && (
+        <UpdateExpoModal
+          expo={expo}
+          open={showUpdateModal}
+          onClose={() => {
+            setShowUpdateModal(false);
+            fetchEventDetails();
+          }}
+        />
+      )}
     </>
   );
 }

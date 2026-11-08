@@ -18,6 +18,7 @@ import {
 export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  
   const stats = [
     {
       title: "Total Events",

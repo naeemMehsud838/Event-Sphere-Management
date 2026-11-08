@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import PageWrapper from "./components/PageWrapper";
+// import AIChatbot from "./components/AIChatbot";
+
 
 // USER PAGES
 import About from "./pages/user pages/About";
@@ -147,6 +149,7 @@ function AnimatedRoutes() {
           </Route>
         </Routes>
       </AnimatePresence>
+      {/* <AIChatbot /> */}
 
       <Footer />
     </>
@@ -155,7 +158,9 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
+     
     <BrowserRouter>
+     <ToastContainer />
       <AnimatedRoutes />
     </BrowserRouter>
   );

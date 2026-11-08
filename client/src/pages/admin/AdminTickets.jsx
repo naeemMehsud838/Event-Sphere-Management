@@ -1,137 +1,140 @@
-// AdminTickets.jsx
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 import "./AdminTickets.css";
 
 const AdminTickets = () => {
-  const ticketsData = [
-    {
-      id: "#1021",
-      user: "Ali",
-      subject: "Payment Issue",
-      status: "Open",
-      priority: "High",
-      category: "Billing",
-      date: "11 May",
-    },
-    {
-      id: "#1022",
-      user: "Ahmed",
-      subject: "Login Error",
-      status: "Pending",
-      priority: "Medium",
-      category: "Technical",
-      date: "10 May",
-    },
-    {
-      id: "#1023",
-      user: "Sara",
-      subject: "Refund Request",
-      status: "Closed",
-      priority: "Low",
-      category: "Billing",
-      date: "09 May",
-    },
-    {
-      id: "#1024",
-      user: "Hassan",
-      subject: "Account Locked",
-      status: "Open",
-      priority: "High",
-      category: "Security",
-      date: "08 May",
-    },
-    {
-      id: "#1025",
-      user: "Areeba",
-      subject: "Profile Update",
-      status: "Pending",
-      priority: "Low",
-      category: "General",
-      date: "07 May",
-    },
-    {
-      id: "#1026",
-      user: "Usman",
-      subject: "Subscription Error",
-      status: "Closed",
-      priority: "Medium",
-      category: "Billing",
-      date: "06 May",
-    },
-    {
-      id: "#1027",
-      user: "Fatima",
-      subject: "Password Reset",
-      status: "Open",
-      priority: "Medium",
-      category: "Security",
-      date: "05 May",
-    },
-    {
-      id: "#1028",
-      user: "Bilal",
-      subject: "Website Crash",
-      status: "Open",
-      priority: "High",
-      category: "Technical",
-      date: "04 May",
-    },
-    {
-      id: "#1029",
-      user: "Zoya",
-      subject: "Email Verification",
-      status: "Pending",
-      priority: "Medium",
-      category: "General",
-      date: "03 May",
-    },
-    {
-      id: "#1030",
-      user: "Hamza",
-      subject: "Refund Delay",
-      status: "Closed",
-      priority: "Low",
-      category: "Billing",
-      date: "02 May",
-    },
-    {
-      id: "#1031",
-      user: "Iqra",
-      subject: "2FA Problem",
-      status: "Open",
-      priority: "High",
-      category: "Security",
-      date: "01 May",
-    },
-    {
-      id: "#1032",
-      user: "Daniyal",
-      subject: "Dashboard Bug",
-      status: "Pending",
-      priority: "Medium",
-      category: "Technical",
-      date: "30 Apr",
-    },
-  ];
-
+  const [ticketsData, setTicketsData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-
-  // POPUP STATE
   const [selectedTicket, setSelectedTicket] = useState(null);
 
-  // FILTER LOGIC
+  // ✅ Fetch tickets from backend
+  const fetchTickets = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:1000/api/tickets/all");
+      
+      console.log("Tickets response:", response.data);
+      
+      if (response.data.success) {
+        setTicketsData(response.data.tickets || []);
+      }
+    } catch (error) {
+      console.error("Fetch tickets error:", error);
+      toast.error("Failed to load tickets");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ REFRESH FUNCTION - Reset filters and fetch fresh data
+  const handleRefresh = async () => {
+    // Reset search and category filters
+    setSearch("");
+    setCategory("All");
+    
+    // Fetch fresh data from backend
+    await fetchTickets();
+    
+    // Show success toast
+    toast.success("Tickets refreshed successfully!");
+  };
+
+  // ✅ Create bulk demo tickets (if needed)
+  const createBulkTickets = async () => {
+    try {
+      const response = await axios.post("http://localhost:1000/api/tickets/bulk-create");
+      if (response.data.success) {
+        toast.success(`${response.data.message}`);
+        fetchTickets();
+      }
+    } catch (error) {
+      console.error("Bulk create error:", error);
+      toast.error("Failed to create demo tickets");
+    }
+  };
+
+  // ✅ Update ticket status
+  const updateStatus = async (id, newStatus) => {
+    try {
+      const response = await axios.put(`http://localhost:1000/api/tickets/update-status/${id}`, {
+        status: newStatus
+      });
+      
+      if (response.data.success) {
+        toast.success(`Ticket ${newStatus}`);
+        fetchTickets();
+      }
+    } catch (error) {
+      console.error("Update status error:", error);
+      toast.error("Failed to update status");
+    }
+  };
+
+  useEffect(() => {
+    fetchTickets();
+  }, []);
+
+  // ✅ FILTER LOGIC
   const filteredTickets = ticketsData.filter((ticket) => {
     const matchesSearch =
-      ticket.user.toLowerCase().includes(search.toLowerCase()) ||
-      ticket.subject.toLowerCase().includes(search.toLowerCase()) ||
-      ticket.id.toLowerCase().includes(search.toLowerCase());
+      ticket.user?.toLowerCase().includes(search.toLowerCase()) ||
+      ticket.subject?.toLowerCase().includes(search.toLowerCase()) ||
+      ticket.ticketId?.toLowerCase().includes(search.toLowerCase());
 
     const matchesCategory = category === "All" || ticket.category === category;
 
     return matchesSearch && matchesCategory;
   });
+
+  // ✅ STATS
+  const totalTickets = ticketsData.length;
+  const openTickets = ticketsData.filter(t => t.status === "Open").length;
+  const pendingTickets = ticketsData.filter(t => t.status === "Pending").length;
+  const closedTickets = ticketsData.filter(t => t.status === "Closed").length;
+
+  // ✅ Loading State
+  if (loading) {
+    return (
+      <div className="tickets-page">
+        <div className="tickets-topbar">
+          <h2>🎫 Support Tickets</h2>
+        </div>
+        <div className="ticket-stats">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="stat-card">
+              <span>Loading...</span>
+              <h4>---</h4>
+            </div>
+          ))}
+        </div>
+        <div className="ticket-table-wrapper">
+          <div className="no-data">Loading tickets...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ No Tickets State
+  if (!loading && ticketsData.length === 0) {
+    return (
+      <div className="tickets-page">
+        <div className="tickets-topbar">
+          <h2>🎫 Support Tickets</h2>
+          <div className="ticket-actions">
+            <button onClick={createBulkTickets} style={{ padding: "8px 16px", borderRadius: "8px", cursor: "pointer" }}>
+              📋 Add Demo Tickets
+            </button>
+          </div>
+        </div>
+        <div className="ticket-table-wrapper">
+          <div className="no-data">No tickets found. Click "Add Demo Tickets" to get started.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tickets-page">
@@ -159,6 +162,11 @@ const AdminTickets = () => {
             <option value="Security">Security</option>
             <option value="General">General</option>
           </select>
+
+          {/* ✅ REFRESH BUTTON - Resets filters and fetches fresh data */}
+          <button onClick={handleRefresh}>
+            🔄 Refresh
+          </button>
         </div>
       </div>
 
@@ -166,28 +174,22 @@ const AdminTickets = () => {
       <div className="ticket-stats">
         <div className="stat-card">
           <span>Total</span>
-          <h4>{ticketsData.length}</h4>
+          <h4>{totalTickets}</h4>
         </div>
 
         <div className="stat-card">
           <span>Open</span>
-          <h4>
-            {ticketsData.filter((ticket) => ticket.status === "Open").length}
-          </h4>
+          <h4>{openTickets}</h4>
         </div>
 
         <div className="stat-card">
           <span>Pending</span>
-          <h4>
-            {ticketsData.filter((ticket) => ticket.status === "Pending").length}
-          </h4>
+          <h4>{pendingTickets}</h4>
         </div>
 
         <div className="stat-card">
           <span>Closed</span>
-          <h4>
-            {ticketsData.filter((ticket) => ticket.status === "Closed").length}
-          </h4>
+          <h4>{closedTickets}</h4>
         </div>
       </div>
 
@@ -210,29 +212,32 @@ const AdminTickets = () => {
           <tbody>
             {filteredTickets.length > 0 ? (
               filteredTickets.map((ticket, index) => (
-                <tr key={index}>
-                  <td>{ticket.id}</td>
-
+                <tr key={ticket._id || index}>
+                  <td>{ticket.ticketId}</td>
                   <td>{ticket.user}</td>
-
                   <td>{ticket.subject}</td>
-
                   <td>{ticket.category}</td>
-
                   <td>
-                    <span className={`status ${ticket.status.toLowerCase()}`}>
+                    <span className={`status ${ticket.status?.toLowerCase()}`}>
                       {ticket.status}
                     </span>
                   </td>
-
                   <td>{ticket.priority}</td>
-
                   <td>{ticket.date}</td>
-
                   <td>
                     <button onClick={() => setSelectedTicket(ticket)}>
                       View
                     </button>
+                    {ticket.status === "Open" && (
+                      <button onClick={() => updateStatus(ticket._id, "Pending")}>
+                        Mark Pending
+                      </button>
+                    )}
+                    {ticket.status === "Pending" && (
+                      <button onClick={() => updateStatus(ticket._id, "Closed")}>
+                        Close
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))
@@ -253,11 +258,10 @@ const AdminTickets = () => {
           <div className="ticket-popup" onClick={(e) => e.stopPropagation()}>
             <h3>Ticket Details</h3>
 
-            {/* NEW 2-COLUMN GRID LAYOUT */}
             <div className="popup-details-grid">
               <div className="popup-detail">
                 <strong>Ticket ID</strong>
-                <span>{selectedTicket.id}</span>
+                <span>{selectedTicket.ticketId}</span>
               </div>
 
               <div className="popup-detail">

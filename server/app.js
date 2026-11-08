@@ -1,67 +1,83 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
 const cors = require("cors");
-const adminRoutes = require("./App/routes/adminRoutes");
-// const authRoutes = require("./App/routes/authRoutes");
-const expoRoutes = require("./App/routes/expoRoutes");
-const boothRoutes = require("./App/routes/boothRoutes")
-const userRoutes = require("./App/routes/userRoutes")
+require("dotenv").config();
+const path = require("path");
+const cookieParser = require("cookie-parser");
 
+// ✅ PEHLE app initialize karo
 const app = express();
 
+// ✅ Serve uploaded files statically (AB YEH SAHI HAI)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-require("dotenv").config();
-
-// Middleware
+// ✅ Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// ✅ CORS setup
 app.use(cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-
-    ],
-    credentials: true
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(
-  session({
-    secret: "mysupersecretkey",
 
-    resave: false,
-
-    saveUninitialized: false,
-
-    store: MongoStore.create({
-  mongoUrl: process.env.DBURL,
-}),
-
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-  })
-);
-// Routes
-app.use("/api/admin", adminRoutes);
-// app.use("/api/auth/", authRoutes);
-app.use("/api/expos/", expoRoutes);
-app.use("/api/booths", boothRoutes);
-app.use("/api/users",userRoutes)
-
-// Database Connection
-mongoose.connect(process.env.DBURL)
-.then(() => {
-    console.log("Database Has Been Connected.");
-
-    app.listen(process.env.PORT || 1100, () => {
-        console.log(`Server is running on port ${process.env.PORT || 1100}`);
-    });
-
-})
-.catch((err) => {
-    console.log("Error While Connecting:", err);
+// ✅ Debug middleware
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.url}`);
+  if (req.method === 'POST' && req.body && Object.keys(req.body).length > 0) {
+    console.log("📥 Body:", req.body);
+  }
+  next();
 });
 
-module.exports = app;
+// ✅ Routes
+
+const boothRoutes = require("./App/routes/boothRoutes");
+const adminRoutes = require("./App/routes/adminRoutes");
+const userRoutes = require("./App/routes/userRoutes");
+const ticketRoutes = require("./App/routes/ticketRoutes");
+ 
+ const messageRoutes = require("./App/routes/messageRoutes");
+ const eventRoutes = require("./App/routes/eventRoutes");
+const sessionRoutes = require("./App/routes/sessionRoutes");
+const aiRoutes = require('./App/routes/aiRoutes');
+
+
+
+app.use('/api/ai', aiRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/booths", boothRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/tickets", ticketRoutes);
+app.use("/api/events", eventRoutes);
+
+ 
+
+// ✅ Test route
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK", message: "Server is running on port 1100" });
+});
+
+// ✅ Database connection
+const DBURL = process.env.DBURL || "mongodb://localhost:27017/event_management";
+
+mongoose.connect(DBURL)
+  .then(() => {
+    console.log("✅ DB Connected");
+    const PORT = process.env.PORT || 1100;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`📋 Admin API: http://localhost:${PORT}/api/admin`);
+      console.log(`👥 User API: http://localhost:${PORT}/api/users`);
+      console.log(`🎫 Tickets API: http://localhost:${PORT}/api/tickets`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ DB Connection Error:", err);
+    process.exit(1);
+  });

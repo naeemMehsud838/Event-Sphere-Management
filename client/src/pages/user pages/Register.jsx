@@ -20,51 +20,104 @@ function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (form.role === "exhibitor" && !form.company) {
-    toast.error("Company name is required for exhibitor");
-    return;
-  }
-
-  try {
-    const res = await axios.post(
-      "http://localhost:1000/api/users/register", // ✅ FIXED HERE
-      form
-    );
-
-    console.log("RESPONSE:", res.data);
-
-    if (res.data.status === 1 || res.data.success === true) {
-      toast.success("Registration Successful 🎉");
-
-      setForm({
-        name: "",
-        email: "",
-        password: "",
-        role: "attendee",
-        company: "",
-        phone: "",
-      });
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 1200);
-
-    } else {
-      toast.error(res.data.message || "Registration Failed");
+    if (form.role === "exhibitor" && !form.company) {
+      toast.error("Company name is required for exhibitor");
+      return;
     }
 
-  } catch (error) {
-    console.log("FULL ERROR:", error);
-    console.log("BACKEND:", error.response?.data);
+    try {
+      const res = await axios.post(
+        "http://localhost:1000/api/users/register",
+        form
+      );
 
-    toast.error(
-      error.response?.data?.message || "Registration Failed"
-    );
-  }
-};
+      console.log("RESPONSE:", res.data);
+
+      if (res.data.status === 1 || res.data.success === true) {
+        // Different message based on role
+        if (form.role === "exhibitor") {
+          toast.success("Registration Successful! Please wait for admin approval.");
+        } else {
+          toast.success("Registration Successful 🎉");
+        }
+
+        setForm({
+          name: "",
+          email: "",
+          password: "",
+          role: "attendee",
+          company: "",
+          phone: "",
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+
+      } else {
+        toast.error(res.data.message || "Registration Failed");
+      }
+
+    } catch (error) {
+      console.log("FULL ERROR:", error);
+      console.log("BACKEND:", error.response?.data);
+
+      toast.error(
+        error.response?.data?.message || "Registration Failed"
+      );
+    }
+  };
+
+
+//   const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+//   if (form.role === "exhibitor" && !form.company) {
+//     toast.error("Company name is required for exhibitor");
+//     return;
+//   }
+
+//   try {
+//     const res = await axios.post(
+//       "http://localhost:1000/api/users/register", // ✅ FIXED HERE
+//       form
+//     );
+
+//     console.log("RESPONSE:", res.data);
+
+//     if (res.data.status === 1 || res.data.success === true) {
+//       toast.success("Registration Successful 🎉");
+
+//       setForm({
+//         name: "",
+//         email: "",
+//         password: "",
+//         role: "attendee",
+//         company: "",
+//         phone: "",
+//       });
+
+//       setTimeout(() => {
+//         navigate("/login");
+//       }, 1200);
+
+//     } else {
+//       toast.error(res.data.message || "Registration Failed");
+//     }
+
+//   } catch (error) {
+//     console.log("FULL ERROR:", error);
+//     console.log("BACKEND:", error.response?.data);
+
+//     toast.error(
+//       error.response?.data?.message || "Registration Failed"
+//     );
+//   }
+// };
 
   return (
     

@@ -228,7 +228,7 @@ export default function AttendeeLayout() {
           <div className="topbar">
             <Menu className="menu-btn" onClick={() => setMobileOpen(true)} />
             <h3>Attendee Panel</h3>
-            <div>Maryam</div>
+            
           </div>
 
           <div className="content">

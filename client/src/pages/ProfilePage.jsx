@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import toast from "react-hot-toast";
 import "./ProfilePage.css";
 
@@ -9,55 +9,21 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const roleParam = searchParams.get("role") || "attendee";
 
-  // Static user data based on role
-  const staticUserData = {
-    attendee: {
-      name: "Sarah Johnson",
-      email: "sarah.johnson@email.com",
-      phone: "+1 (555) 123-4567",
-      company: "Tech Innovators Inc.",
-      bio: "Passionate event enthusiast and tech professional. Always looking for the next big conference!",
-      avatar: "",
-      registeredExpos: 12,
-      bookmarkedSessions: 28,
-      createdAt: "2023-08-15",
-    },
-    exhibitor: {
-      name: "Mike Chen",
-      email: "mike.chen@exhibitco.com",
-      phone: "+1 (555) 987-6543",
-      company: "ExhibitCo Solutions",
-      bio: "Leading exhibitor with 10+ years experience creating unforgettable booth experiences.",
-      avatar: "",
-      registeredExpos: 8,
-      bookmarkedSessions: 15,
-      createdAt: "2022-03-10",
-    },
-    admin: {
-      name: "Admin Master",
-      email: "admin@eventsphere.com",
-      phone: "+1 (555) 000-0001",
-      company: "EventSphere Admin",
-      bio: "System administrator managing platform operations and event coordination.",
-      avatar: "",
-      registeredExpos: 45,
-      bookmarkedSessions: 120,
-      createdAt: "2021-01-01",
-    },
-  };
-
-  const user = staticUserData[roleParam] || staticUserData.attendee;
-
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
-    name: user.name,
-    phone: user.phone,
-    company: user.company,
-    bio: user.bio,
-    avatar: user.avatar,
+    name: "",
+    phone: "",
+    company: "",
+    bio: "",
+    location: "",
+    avatar: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  // Theme state
   const [theme, setTheme] = useState(
-    () => localStorage.getItem("es-theme") || "dark",
+    () => localStorage.getItem("es-theme") || "dark"
   );
 
   useEffect(() => {
@@ -65,15 +31,167 @@ export default function ProfilePage() {
     localStorage.setItem("es-theme", theme);
   }, [theme]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      toast.success("Profile updated successfully!");
+  const getToken = () => localStorage.getItem("token");
+
+  // Fetch user profile from backend
+  const fetchUserProfile = async () => {
+    try {
+      setLoading(true);
+      const token = getToken();
+      if (!token) {
+        toast.error("Please login first");
+        navigate("/login");
+        return;
+      }
+
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const email = storedUser.email;
+
+      if (!email) {
+        toast.error("User not found. Please login again.");
+        navigate("/login");
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:1000/api/users/profile-by-email?email=${email}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.success) {
+        const userData = response.data.user;
+        setUser(userData);
+        setForm({
+          name: userData.name || "",
+          phone: userData.phone || "",
+          company: userData.company || "",
+          bio: userData.bio || "",
+          location: userData.location || "Karachi, Pakistan",
+          avatar: userData.avatar || "",
+        });
+      } else {
+        toast.error(response.data.message || "Failed to load profile");
+      }
+    } catch (error) {
+      console.error("Fetch profile error:", error);
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        navigate("/login");
+      } else {
+        toast.error("Failed to load profile");
+      }
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
+  // Update profile in backend
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setSaving(true);
+
+  //   try {
+  //     const token = getToken();
+  //     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  //     const email = storedUser.email;
+
+  //     const response = await axios.put(
+  //       `http://localhost:1000/api/users/update-profile-by-email?email=${email}`,
+  //       {
+  //         name: form.name,
+  //         phone: form.phone,
+  //         company: form.company,
+  //         bio: form.bio,
+  //         location: form.location,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.data.success) {
+  //       toast.success("Profile updated successfully!");
+  //       setUser(response.data.user);
+  //       // Update localStorage
+  //       const updatedUser = {
+  //         ...storedUser,
+  //         name: response.data.user.name,
+  //         phone: response.data.user.phone,
+  //         company: response.data.user.company,
+  //       };
+  //       localStorage.setItem("user", JSON.stringify(updatedUser));
+  //     } else {
+  //       toast.error(response.data.message || "Failed to update profile");
+  //     }
+  //   } catch (error) {
+  //     console.error("Update profile error:", error);
+  //     toast.error("Failed to update profile");
+  //   } finally {
+  //     setSaving(false);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setSaving(true);
+
+  try {
+    const token = getToken();
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const email = storedUser.email;
+
+    const response = await axios.put(
+      `http://localhost:1000/api/users/update-profile-by-email?email=${email}`,
+      {
+        name: form.name,
+        phone: form.phone,
+        company: form.company,
+        bio: form.bio,
+        location: form.location,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.data.success) {
+      toast.success("Profile updated successfully!");
+      setUser(response.data.user);
+      
+      // Update localStorage
+      const updatedUser = {
+        ...storedUser,
+        name: response.data.user.name,
+        phone: response.data.user.phone,
+        company: response.data.user.company,
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      
+      // ✅ IMPORTANT: Dispatch event to notify Navbar
+      window.dispatchEvent(new Event("userProfileUpdated"));
+      
+    } else {
+      toast.error(response.data.message || "Failed to update profile");
+    }
+  } catch (error) {
+    console.error("Update profile error:", error);
+    toast.error("Failed to update profile");
+  } finally {
+    setSaving(false);
+  }
+};
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  // Role based info for display
   const roleInfo = {
     admin: {
       title: "System Administrator",
@@ -95,24 +213,88 @@ export default function ProfilePage() {
     },
   };
 
-  const role = roleInfo[roleParam] || roleInfo.attendee;
+  const actualRole = user?.role || roleParam;
+  const role = roleInfo[actualRole] || roleInfo.attendee;
 
+  // Stats (static for now – can be dynamic later)
   const stats = [
-    { label: "Events Registered", value: user.registeredExpos, icon: "🎪" },
-    {
-      label: "Sessions Bookmarked",
-      value: user.bookmarkedSessions,
-      icon: "📌",
-    },
+    { label: "Events Registered", value: user?.registeredExpos || 0, icon: "🎪" },
+    { label: "Sessions Bookmarked", value: user?.bookmarkedSessions || 0, icon: "📌" },
     {
       label: "Member Since",
-      value: new Date(user.createdAt).toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      }),
+      value: user?.createdAt
+        ? new Date(user.createdAt).toLocaleDateString("en-US", {
+            month: "short",
+            year: "numeric",
+          })
+        : "N/A",
       icon: "🗓️",
     },
   ];
+
+  // ✅ ROLE‑BASED QUICK ACTIONS
+  const getQuickActions = () => {
+    if (actualRole === "admin") {
+      return [
+        { label: "🏠 Dashboard", path: "/admin" },
+        { label: "🎪 Manage Events", path: "/admin/adminEvents" },
+        { label: "👥 Attendees", path: "/admin/AdminAttendees" },
+        { label: "↩️ Go Back", action: "back" },
+      ];
+    } else if (actualRole === "exhibitor") {
+      return [
+        { label: "🏠 Dashboard", path: "/exhibitor" },
+        { label: "🎪 Events", path: "/exhibitor/ExhibitorEvents" },
+        { label: "🏗️ My Booths", path: "/exhibitor/my-booth" },
+        { label: "↩️ Go Back", action: "back" },
+      ];
+    } else {
+      // attendee
+      return [
+        { label: "🏠 Dashboard", path: "/attendee" },
+        { label: "🎪 Browse Events", path: "/events" },
+        { label: "🎟️ My Bookings", path: "/attendee/Booking" },
+        { label: "↩️ Go Back", action: "back" },
+      ];
+    }
+  };
+
+  const quickActions = getQuickActions();
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="profile-container">
+        <div className="profile-hero">
+          <div className="hero-content">
+            <div className="profile-avatar" style={{ background: role.gradient }}>
+              ⏳
+            </div>
+            <h1 className="profile-name">Loading...</h1>
+            <p className="profile-email">Please wait</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // No user state
+  if (!user) {
+    return (
+      <div className="profile-container">
+        <div className="profile-hero">
+          <div className="hero-content">
+            <div className="profile-avatar">❌</div>
+            <h1 className="profile-name">No Data Found</h1>
+            <p className="profile-email">Please login again</p>
+            <button onClick={() => navigate("/login")} className="btn-save">
+              Go to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -125,11 +307,16 @@ export default function ProfilePage() {
         {/* Hero Section */}
         <div className="profile-hero">
           <div className="hero-content">
-            <div
-              className="profile-avatar"
-              style={{ background: role.gradient }}
-            >
-              {role.icon}
+            <div className="profile-avatar" style={{ background: role.gradient }}>
+              {form.avatar ? (
+                <img
+                  src={form.avatar}
+                  alt={user.name}
+                  style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }}
+                />
+              ) : (
+                role.icon
+              )}
             </div>
             <h1 className="profile-name">{user.name}</h1>
             <p className="profile-email">{user.email}</p>
@@ -144,7 +331,7 @@ export default function ProfilePage() {
 
         {/* Stats */}
         <div className="stats-grid">
-          {stats.map((stat, index) => (
+          {stats.map((stat) => (
             <div key={stat.label} className="stat-card">
               <div className="stat-icon">{stat.icon}</div>
               <div className="stat-value">{stat.value}</div>
@@ -167,17 +354,14 @@ export default function ProfilePage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="Enter your full name"
+                  required
                 />
               </div>
 
               <div className="form-group">
                 <label className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  className="form-input"
-                  value={user.email}
-                  disabled
-                />
+                <input type="email" className="form-input" value={user.email} disabled />
+                <small className="form-hint">Email cannot be changed</small>
               </div>
 
               <div className="form-group">
@@ -197,10 +381,19 @@ export default function ProfilePage() {
                   type="text"
                   className="form-input"
                   value={form.company}
-                  onChange={(e) =>
-                    setForm({ ...form, company: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, company: e.target.value })}
                   placeholder="Your company name"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Location</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={form.location}
+                  onChange={(e) => setForm({ ...form, location: e.target.value })}
+                  placeholder="Your location"
                 />
               </div>
 
@@ -222,33 +415,34 @@ export default function ProfilePage() {
                   value={form.bio}
                   onChange={(e) => setForm({ ...form, bio: e.target.value })}
                   placeholder="Tell us about yourself..."
+                  rows="4"
                 />
               </div>
             </div>
 
-            <button type="submit" className="btn-save" disabled={loading}>
-              {loading ? "⏳ Saving Changes..." : "💾 Save Changes"}
+            <button type="submit" className="btn-save" disabled={saving}>
+              {saving ? "⏳ Saving Changes..." : "💾 Save Changes"}
             </button>
           </form>
 
-          {/* Quick Actions */}
+          {/* Quick Actions – Role‑Based */}
           <div className="quick-actions">
-            <Link to="/dashboard" className="action-btn">
-              <span>🏠</span>
-              Dashboard
-            </Link>
-            <Link to="/expos" className="action-btn">
-              <span>🎪</span>
-              Browse Events
-            </Link>
-            <Link to="/sessions" className="action-btn">
-              <span>📅</span>
-              My Sessions
-            </Link>
-            <button onClick={() => navigate(-1)} className="action-btn">
-              <span>↩️</span>
-              Go Back
-            </button>
+            {quickActions.map((action, idx) => {
+              if (action.path) {
+                return (
+                  <Link key={idx} to={action.path} className="action-btn">
+                    <span>{action.label.slice(0, 2)}</span> {action.label.slice(2)}
+                  </Link>
+                );
+              } else if (action.action === "back") {
+                return (
+                  <button key={idx} onClick={() => navigate(-1)} className="action-btn">
+                    <span>↩️</span> Go Back
+                  </button>
+                );
+              }
+              return null;
+            })}
           </div>
         </div>
       </div>
